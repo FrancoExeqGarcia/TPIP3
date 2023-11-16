@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\TPIP3\\TODOLIST\\TODOLIST.csproj": {}
+    "C:\\repos\\TPIP3\\TODOLIST.csproj": {}
   },
   "projects": {
-    "C:\\TPIP3\\TODOLIST\\TODOLIST.csproj": {
+    "C:\\repos\\TPIP3\\TODOLIST.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\TPIP3\\TODOLIST\\TODOLIST.csproj",
+        "projectUniqueName": "C:\\repos\\TPIP3\\TODOLIST.csproj",
         "projectName": "TODOLIST",
-        "projectPath": "C:\\TPIP3\\TODOLIST\\TODOLIST.csproj",
-        "packagesPath": "C:\\Users\\María Paz\\.nuget\\packages\\",
-        "outputPath": "C:\\TPIP3\\TODOLIST\\obj\\",
+        "projectPath": "C:\\repos\\TPIP3\\TODOLIST.csproj",
+        "packagesPath": "C:\\Users\\Franco\\.nuget\\packages\\",
+        "outputPath": "C:\\repos\\TPIP3\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\María Paz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Franco\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -64,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
