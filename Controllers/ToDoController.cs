@@ -1,60 +1,64 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using TODOLIST.Data.Entites;
 
 namespace TODOLIST.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
-    public class ToDoController
+    public class ToDoController : ControllerBase
     {
+        private List<ToDo> todos = new List<ToDo>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Item>> Get()
+        public ActionResult<IEnumerable<ToDo>> Get()
         {
-            return Ok(items);
+            return Ok(todos);
         }
-        [HttpGet("{id}")]
-        public ActionResult<Item> Get(int id)
-        {
-            var item = items.Find(i => i.Id == id);
 
-            if (item == null)
+        [HttpGet("{id}")]
+        public ActionResult<ToDo> Get(int id)
+        {
+            var todo = todos.Find(t => t.Id == id);
+
+            if (todo == null)
             {
                 return NotFound();
             }
 
-            return Ok(item);
+            return Ok(todo);
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Item> Put(int id, Item updatedItem)
+        public ActionResult<ToDo> Put(int id, ToDo updatedToDo)
         {
-            var existingItem = items.Find(i => i.Id == id);
+            var existingToDo = todos.Find(t => t.Id == id);
 
-            if (existingItem == null)
+            if (existingToDo == null)
             {
                 return NotFound();
             }
 
-            existingItem.Nombre = updatedItem.Nombre;
+            existingToDo.Name = updatedToDo.Name;
+            existingToDo.StartDate = updatedToDo.StartDate;
+            existingToDo.EndDate = updatedToDo.EndDate;
 
-            return Ok(existingItem);
+            return Ok(existingToDo);
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var item = items.Find(i => i.Id == id);
+            var todo = todos.Find(t => t.Id == id);
 
-            if (item == null)
+            if (todo == null)
             {
                 return NotFound();
             }
 
-            items.Remove(item);
+            todos.Remove(todo);
 
             return NoContent();
         }
     }
-}
 }

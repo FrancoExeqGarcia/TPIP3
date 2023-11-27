@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using TODOLIST.Data.Entites; 
 
 namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController
+    public class UserController : ControllerBase
     {
+        private List<User> users = new List<User>();
+
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
@@ -35,7 +39,7 @@ namespace TODOLIST.Controllers
                 return NotFound();
             }
 
-            existingUser.Nombre = updatedUser.Nombre;
+            existingUser.Name = updatedUser.Name;
 
             return Ok(existingUser);
         }
@@ -55,5 +59,4 @@ namespace TODOLIST.Controllers
             return NoContent();
         }
     }
-}
 }
