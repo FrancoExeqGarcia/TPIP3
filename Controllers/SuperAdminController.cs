@@ -4,6 +4,8 @@ using TODOLIST.Data.Entites;
 
 namespace TODOLIST.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class SuperAdminController : Controller
     {
         private List<ToDo> projects = new List<ToDo>();

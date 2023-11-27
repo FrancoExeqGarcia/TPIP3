@@ -5,7 +5,7 @@ using TODOLIST.Data.Entites;
 namespace TODOLIST.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ToDoController : ControllerBase
     {
         private List<ToDo> todos = new List<ToDo>();
