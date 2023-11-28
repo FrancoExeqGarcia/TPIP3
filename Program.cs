@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using TODOLIST.DBContext;
+using TODOLIST.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

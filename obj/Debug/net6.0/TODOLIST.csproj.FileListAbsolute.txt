@@ -73,3 +73,13 @@ C:\repos\TPIP3\obj\Debug\net6.0\refint\TODOLIST.dll
 C:\repos\TPIP3\obj\Debug\net6.0\TODOLIST.pdb
 C:\repos\TPIP3\obj\Debug\net6.0\TODOLIST.genruntimeconfig.cache
 C:\repos\TPIP3\obj\Debug\net6.0\ref\TODOLIST.dll
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.csproj.AssemblyReference.cache
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.GeneratedMSBuildEditorConfig.editorconfig
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.AssemblyInfoInputs.cache
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.AssemblyInfo.cs
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.csproj.CoreCompileInputs.cache
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.MvcApplicationPartsAssemblyInfo.cs
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.MvcApplicationPartsAssemblyInfo.cache
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.dll
+D:\escritorio\TPIP3\obj\Debug\net6.0\refint\TODOLIST.dll
+D:\escritorio\TPIP3\obj\Debug\net6.0\TODOLIST.pdb
