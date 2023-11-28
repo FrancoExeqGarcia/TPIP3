@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using TODOLIST.Data.Entites;
 
 namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TodoController : ControllerBase
+    public class TaskController : ControllerBase
     {
-        private List<Data.Entites.Todo> todos = new List<Data.Entites.Todo>();
+        private List<Data.Entities.ToDo> todos = new List<Data.Entities.ToDo>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Data.Entites.Todo>> Get()
+        public ActionResult<IEnumerable<Data.Entities.ToDo>> Get()
         {
             return Ok(todos);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Data.Entites.Todo> Get(int id)
+        public ActionResult<Data.Entities.ToDo> Get(int id)
         {
             var todo = todos.Find(t => t.Id == id);
 
@@ -30,7 +29,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Data.Entites.Todo> Put(int id, Data.Entites.Todo updatedToDo)
+        public ActionResult<Data.Entities.ToDo> Put(int id, Data.Entities.ToDo updatedToDo)
         {
             var existingToDo = todos.Find(t => t.Id == id);
 
