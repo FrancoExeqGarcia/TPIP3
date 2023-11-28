@@ -6,18 +6,18 @@ namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ToDoController : ControllerBase
+    public class TaskController : ControllerBase
     {
-        private List<ToDo> todos = new List<ToDo>();
+        private List<Data.Entites.Task> todos = new List<Data.Entites.Task>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<ToDo>> Get()
+        public ActionResult<IEnumerable<Data.Entites.Task>> Get()
         {
             return Ok(todos);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ToDo> Get(int id)
+        public ActionResult<Data.Entites.Task> Get(int id)
         {
             var todo = todos.Find(t => t.Id == id);
 
@@ -30,7 +30,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<ToDo> Put(int id, ToDo updatedToDo)
+        public ActionResult<Data.Entites.Task> Put(int id, Data.Entites.Task updatedToDo)
         {
             var existingToDo = todos.Find(t => t.Id == id);
 

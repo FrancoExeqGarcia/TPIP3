@@ -6,7 +6,7 @@ namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class ProgramerController : ControllerBase
     {
         private List<User> users = new List<User>();
 
