@@ -8,16 +8,16 @@ namespace TODOLIST.Controllers
     [Route("[controller]")]
     public class AdminController : ControllerBase
     {
-        private List<ToDo> projects = new List<ToDo>();
+        private List<Data.Entites.Task> projects = new List<Data.Entites.Task>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<ToDo>> Get()
+        public ActionResult<IEnumerable<Data.Entites.Task>> Get()
         {
             return Ok(projects);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ToDo> Get(int id)
+        public ActionResult<Data.Entites.Task> Get(int id)
         {
             var project = projects.Find(p => p.Id == id);
 
@@ -30,7 +30,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<ToDo> Put(int id, ToDo updatedProject)
+        public ActionResult<Data.Entites.Task> Put(int id, Data.Entites.Task updatedProject)
         {
             var existingProject = projects.Find(p => p.Id == id);
 

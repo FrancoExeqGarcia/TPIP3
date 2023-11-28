@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TODOLIST.Data.Entites
 {
-    public class ToDo
+    public class Project 
     {
         [Key]
         [Required]
@@ -11,5 +10,6 @@ namespace TODOLIST.Data.Entites
         public string Name { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public string Description {  get; set; } 
     }
 }

@@ -2,9 +2,9 @@
 using TODOLIST.Data.Entites;
 using Microsoft.EntityFrameworkCore;
 using EFCoreDbContext = Microsoft.EntityFrameworkCore.DbContext;
-using EFCoreDbSet = Microsoft.EntityFrameworkCore.DbSet<TODOLIST.Data.Entites.ToDo>;
+using EFCoreDbSet = Microsoft.EntityFrameworkCore.DbSet<TODOLIST.Data.Entites.Task>;
 using SystemDataDbContext = System.Data.Entity.DbContext;
-using SystemDataDbSet = System.Data.Entity.DbSet<TODOLIST.Data.Entites.ToDo>;
+using SystemDataDbSet = System.Data.Entity.DbSet<TODOLIST.Data.Entites.Task>;
 
 
 public class ToDoContext : EFCoreDbContext
