@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using TODOLIST.Data.Entites;
 
 namespace TODOLIST.Controllers
 {
@@ -8,16 +7,16 @@ namespace TODOLIST.Controllers
     [Route("[controller]")]
     public class AdminController : ControllerBase
     {
-        private List<Data.Entites.Task> projects = new List<Data.Entites.Task>();
+        private List<Data.Entities.ToDo> projects = new List<Data.Entities.ToDo>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Data.Entites.Task>> Get()
+        public ActionResult<IEnumerable<Data.Entities.ToDo>> Get()
         {
             return Ok(projects);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Data.Entites.Task> Get(int id)
+        public ActionResult<Data.Entities.ToDo> Get(int id)
         {
             var project = projects.Find(p => p.Id == id);
 
@@ -30,7 +29,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Data.Entites.Task> Put(int id, Data.Entites.Task updatedProject)
+        public ActionResult<Data.Entities.ToDo> Put(int id, Data.Entities.ToDo updatedProject)
         {
             var existingProject = projects.Find(p => p.Id == id);
 

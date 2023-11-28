@@ -2,7 +2,7 @@
 {
     public enum UserRoleEnum
     {
-        Client,
+        Programer,
         Admin,
         SuperAdmin
     }
