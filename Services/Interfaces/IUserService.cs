@@ -1,6 +1,15 @@
-﻿namespace TODOLIST.Services.Interfaces
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using TODOLIST.Data.Entites;
+
+namespace TODOLIST.Services
 {
-    public class IUserService
+    public interface IUserService
     {
+        Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<User> GetUserByIdAsync(int userId);
+        Task CreateUserAsync(User user);
+        Task UpdateUserAsync(int userId, User user);
+        Task DeleteUserAsync(int userId);
     }
 }
