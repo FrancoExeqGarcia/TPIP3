@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TODOLIST.Data.Entites
+namespace TODOLIST.Data.Entities
 {
     public class Admin : User
     {

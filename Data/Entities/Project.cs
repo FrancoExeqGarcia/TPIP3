@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TODOLIST.Data.Entites
+namespace TODOLIST.Data.Entities
 {
-    public class Project 
+    public class Project
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int ProjectId { get; set; }
         public string Name { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-        public string Description {  get; set; } 
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Description { get; set; }
     }
 }

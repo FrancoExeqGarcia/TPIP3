@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
-using TODOLIST.Data.Entites;
+using TODOLIST.Data.Entities;
 
 namespace TODOLIST.DBContext
 {

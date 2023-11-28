@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TODOLIST.Data.Entites;
+using TODOLIST.Data.Entities;
 
 namespace TODOLIST.Controllers
 {
@@ -8,10 +8,10 @@ namespace TODOLIST.Controllers
     [Route("[controller]")]
     public class SuperAdminController : Controller
     {
-        private List<Data.Entites.ToDo> projects = new List<Data.Entites.ToDo>();
+        private List<ToDo> projects = new List<ToDo>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Data.Entites.ToDo>> Get()
+        public ActionResult<IEnumerable<ToDo>> Get()
         {
             // Acciones específicas para superadministradores
             return Ok(projects);

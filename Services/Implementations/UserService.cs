@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TODOLIST.Data.Entites;
+using TODOLIST.Data.Entities;
 
 namespace TODOLIST.Services.Interfaces
 {

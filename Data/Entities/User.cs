@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using TODOLIST.Enums;
 
-namespace TODOLIST.Data.Entites
+namespace TODOLIST.Data.Entities
 {
     public abstract class User
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int UserId { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         [Required]

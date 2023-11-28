@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using TODOLIST.Data.Entites; 
+using TODOLIST.Data.Entities;
 
 namespace TODOLIST.Controllers
 {
