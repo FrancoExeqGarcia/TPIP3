@@ -8,10 +8,10 @@ namespace TODOLIST.Controllers
     [Route("[controller]")]
     public class SuperAdminController : Controller
     {
-        private List<Data.Entites.Task> projects = new List<Data.Entites.Task>();
+        private List<Data.Entites.ToDo> projects = new List<Data.Entites.ToDo>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Data.Entites.Task>> Get()
+        public ActionResult<IEnumerable<Data.Entites.ToDo>> Get()
         {
             // Acciones específicas para superadministradores
             return Ok(projects);
