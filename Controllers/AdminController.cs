@@ -11,13 +11,13 @@ namespace TODOLIST.Controllers
         private List<ToDo> projects = new List<ToDo>();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get()
+        public ActionResult<IEnumerable<ToDo>> Get()
         {
             return Ok(projects);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Project> Get(int id)
+        public ActionResult<ToDo> Get(int id)
         {
             var project = projects.Find(p => p.Id == id);
 
@@ -30,7 +30,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Project> Put(int id, Project updatedProject)
+        public ActionResult<ToDo> Put(int id, ToDo updatedProject)
         {
             var existingProject = projects.Find(p => p.Id == id);
 

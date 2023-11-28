@@ -2,6 +2,7 @@
 {
     public class SuperAdministrator : Administrator
     {
+        public string Role { get; set; } = "superadmin";
         public virtual void AddUser(User user)
         {
             // Lógica para agregar un usuario

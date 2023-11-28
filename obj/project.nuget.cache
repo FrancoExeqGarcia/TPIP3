@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rEj0E19Pxdzp8NuZMPpbYkC54deuzilLLHYzE30hUr2H7lHRf3Qp474rQ+j8QZMzaUBqx/LtwanaSRa5Yx5N9Q==",
+  "dgSpecHash": "v6tBTgKoh0+pxbef4bS3mw2/Fj9Q4Cbe6YgBIwgwtSHe91TcMHlS5Dkv3IVozwgT6WLEM6fosxgqQesHD/kjeQ==",
   "success": true,
   "projectFilePath": "C:\\repos\\TPIP3\\TODOLIST.csproj",
   "expectedPackageFiles": [
@@ -60,8 +60,8 @@
     "C:\\Users\\Franco\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Franco\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",
     "C:\\Users\\Franco\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
-    "C:\\Users\\Franco\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
     "C:\\Users\\Franco\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\Franco\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
     "C:\\Users\\Franco\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512",
     "C:\\Users\\Franco\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.25\\microsoft.netcore.app.host.win-x64.6.0.25.nupkg.sha512"
   ],
