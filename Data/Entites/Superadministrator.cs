@@ -1,6 +1,6 @@
 ﻿namespace TODOLIST.Data.Entites
 {
-    public class Superadministrator : Administrator
+    public class SuperAdministrator : Administrator
     {
         public virtual void AddUser(User user)
         {
