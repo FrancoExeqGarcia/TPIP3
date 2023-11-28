@@ -2,10 +2,8 @@
 
 namespace TODOLIST.Data.Entites
 {
-    public class Administrator : User
-
+    public class Admin : User
     {
-        public string Role { get; set; } = "admin";
 
     }
 }
