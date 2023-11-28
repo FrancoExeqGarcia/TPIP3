@@ -5,7 +5,7 @@ namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TaskController : ControllerBase
+    public class TodoController : ControllerBase
     {
         private List<Data.Entities.ToDo> todos = new List<Data.Entities.ToDo>();
 
