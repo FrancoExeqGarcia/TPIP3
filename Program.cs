@@ -1,12 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TODOLIST.Data;
+using TODOLIST.Services.Interfaces;
+using TODOLIST.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IProjectService, ProjectService>();
+
 
 // Configure DbContext with SQL Server connection string
 builder.Services.AddDbContext<ToDoContext>(options =>
