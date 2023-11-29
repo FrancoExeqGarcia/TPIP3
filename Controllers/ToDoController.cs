@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using TODOLIST.Data.Entities;
+using TODOLIST.Services.Implementations;
+using TODOLIST.Services.Interfaces;
 
 namespace TODOLIST.Controllers
 {
@@ -7,18 +10,24 @@ namespace TODOLIST.Controllers
     [Route("[controller]")]
     public class TodoController : ControllerBase
     {
-        private List<Data.Entities.ToDo> todos = new List<Data.Entities.ToDo>();
+        private readonly IToDoService _todoService;
+
+        public TodoController(IToDoService todoService)
+        {
+            _todoService = todoService;
+        }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Data.Entities.ToDo>> Get()
+        public ActionResult<IEnumerable<ToDo>> Get()
         {
+            var todos = _todoService.GetAllToDos();
             return Ok(todos);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Data.Entities.ToDo> Get(int id)
+        public ActionResult<ToDo> Get(int id)
         {
-            var todo = todos.Find(t => t.ToDoId == id);
+            var todo = _todoService.GetTodoById(id);
 
             if (todo == null)
             {
@@ -29,18 +38,14 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Data.Entities.ToDo> Put(int id, Data.Entities.ToDo updatedToDo)
+        public ActionResult<ToDo> Put(int id, ToDo updatedToDo)
         {
-            var existingToDo = todos.Find(t => t.ToDoId == id);
+            var existingToDo = _todoService.UpdateTodo(id, updatedToDo);
 
             if (existingToDo == null)
             {
                 return NotFound();
             }
-
-            existingToDo.Name = updatedToDo.Name;
-            existingToDo.StartDate = updatedToDo.StartDate;
-            existingToDo.EndDate = updatedToDo.EndDate;
 
             return Ok(existingToDo);
         }
@@ -48,15 +53,7 @@ namespace TODOLIST.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var todo = todos.Find(t => t.ToDoId == id);
-
-            if (todo == null)
-            {
-                return NotFound();
-            }
-
-            todos.Remove(todo);
-
+            _todoService.DeleteTodo(id);
             return NoContent();
         }
     }
