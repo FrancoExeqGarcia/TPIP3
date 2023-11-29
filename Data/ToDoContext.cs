@@ -54,7 +54,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Controlers",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   RealtedProject = 1,
+                   ProjectId =1,
+                   UserId=1
                },
                new ToDo
                {
@@ -62,7 +63,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Entities",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   RealtedProject = 2,
+                   ProjectId = 2,
+                   UserId=2
                },
                new ToDo
                {
@@ -70,7 +72,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Services",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   RealtedProject = 3,
+                   ProjectId = 3,
+                   UserId=3
                }
                );
             modelBuilder.Entity<Project>().HasData(
@@ -80,7 +83,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Project1",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   Description = "Project from USA"
+                   Description = "Project from USA",
+                   UserId=1
                },
                new Project
                {
@@ -88,7 +92,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Project2",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   Description = "Project from Arg"
+                   Description = "Project from Arg",
+                   UserId = 2
                },
                new Project
                {
@@ -96,7 +101,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Project3",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   Description = "Project from EU"
+                   Description = "Project from EU",
+                   UserId = 3
                });
 
 
@@ -119,30 +125,6 @@ namespace TODOLIST.Data.Entities
                 .HasForeignKey(td => td.ToDoId);
 
 
-        }
-        public async Task<int> CreateAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Task<IEnumerable<User>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Task<User> GetByIdAsync(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Task UpdateAsync(User userToDelete)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal Task<User?> GetFirstOrDefaultAsync(Func<object, bool> value)
-        {
-            throw new NotImplementedException();
         }
     }
 }
