@@ -9,113 +9,83 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TODOLIST.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly ToDoContext _toDoContext;
+       
+            private readonly ToDoContext _context;
 
-        public UserService(ToDoContext context)
-        {
-            _toDoContext = context;
-        }
-
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            // Implementar lógica para obtener todos los usuarios
-            return await _toDoContext.GetAllAsync();
-        }
-
-        public async Task<User> GetUserByIdAsync(int userId)
-        {
-            // Implementar lógica para obtener un usuario por ID
-            return await _toDoContext.GetByIdAsync(userId);
-        }
-
-        public async Task CreateUserAsync(User user)
-        {
-            // Implementar lógica para crear un nuevo usuario
-            await _toDoContext.CreateAsync(user);
-        }
-
-        public async Task UpdateUserAsync(int userId, User user)
-        {
-            // Implementar lógica para actualizar un usuario
-            var existingUser = await _toDoContext.GetByIdAsync(userId);
-
-            if (existingUser != null)
+            public UserService(ToDoContext context)
             {
-                existingUser.UserName = user.UserName;
-                existingUser.Password = user.Password;
-                existingUser.Email = user.Email;
-
-                await _toDoContext.UpdateAsync(existingUser);
-            }
-            // Puedes manejar el caso si el usuario no existe
-        }
-
-        public async Task DeleteUserAsync(int userId)
-        {
-            // Implementar lógica para eliminar un usuario
-            var userToDelete = await _toDoContext.GetByIdAsync(userId);
-
-            if (userToDelete != null)
-            {
-                userToDelete.State = false;
-                await _toDoContext.UpdateAsync(userToDelete);
-            }
-            // Puedes manejar el caso si el usuario no existe
-        }
-
-        public async Task<User?> GetUserByEmailAsync(string email)
-        {
-            // Implementar lógica para obtener un usuario por email
-            return await _toDoContext.GetFirstOrDefaultAsync(u => u.Email == email);
-        }
-
-        public async Task<BaseResponse> UserValidationAsync(string email, string password)
-        {
-            // Implementar lógica para la validación de usuario
-            BaseResponse response = new BaseResponse();
-
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-            {
-                response.Result = false;
-                response.Message = "Por favor, ingrese email y contraseña";
-                return response;
+                _context = context;
             }
 
-            User? userForLogin = await _toDoContext.GetFirstOrDefaultAsync(u => u.Email == email);
-            if (userForLogin != null)
+            public User? GetUserByEmail(string email)
             {
-                if (userForLogin.Password == password)
+                return _context.Users.SingleOrDefault(u => u.Email == email);
+            }
+
+            public bool CheckIfUserExists(string userEmail)
+            {
+                return _context.Users.Any(u => u.Email == userEmail);
+            }
+
+            public BaseResponse ValidateUser(string email, string password)
+            {
+                BaseResponse response = new();
+                User? userForLogin = _context.Users.SingleOrDefault(u => u.Email == email);
+                if (userForLogin != null) //Si lo encuentra, entra al if (distinto de null)
                 {
-                    response.Result = true;
-                    response.Message = "Inicio de sesión exitoso";
+                    if (userForLogin.Password == password)
+                    {
+                        response.Result = true;
+                        response.Message = "successful login";
+                    }
+                    else
+                    {
+                        response.Result = false;
+                        response.Message = "wrong password";
+                    }
                 }
                 else
                 {
                     response.Result = false;
-                    response.Message = "Contraseña incorrecta";
+                    response.Message = "wrong email";
                 }
+                return response;
             }
-            else
+
+            public ErrorOr<int> CreateUser(User user)
             {
-                response.Result = false;
-                response.Message = "Email incorrecto";
+                _context.Add(user);
+                _context.SaveChanges();
+                return user.Id;
             }
-            return response;
-        }
 
-        BaseResponse IUserService.ValidateUser(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
+            public ErrorOr<Updated> UpdateUser(User user)
+            {
+                _context.Update(user);
+                _context.SaveChanges();
+                return Result.Updated;
+            }
 
-        UserDto? IUserService.GetUserByEmail(string email)
-        {
-            throw new NotImplementedException();
+            public ErrorOr<Deleted> DeleteUser(int userId)
+            {
+                User userToBeDeleted = _context.Users.SingleOrDefault(u => u.Id == userId); //el usuario a borrar va a existir en la BBDD porque el userId viene del token del usuario que inició sesión. Si inicia sesión, su usuario ya existe.
+                userToBeDeleted.State = false; //borrado lógico. El usuario seguirá en la BBDD pero con un state 0 (false)
+                _context.Update(userToBeDeleted);
+                _context.SaveChanges();
+                return Result.Deleted;
+            }
+
+
+
+            public ErrorOr<List<User>> GetUsersByRole(string role)
+            {
+                return _context.Users.Where(u => u.UserType == role).ToList();
+            }
         }
-    }
-}
