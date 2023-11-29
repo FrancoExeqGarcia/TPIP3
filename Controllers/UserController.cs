@@ -46,7 +46,7 @@ namespace TODOLIST.Controllers
                     Password = programerPostDto.Password,
                     UserName = programerPostDto.UserName,
                 };
-                int id = _userService.CreateUser(programer);
+                int id = _userService.CreateUser(programer).Value;
                 return Ok(id);
             }
             else
@@ -69,7 +69,7 @@ namespace TODOLIST.Controllers
                     UserName = adminPostDto.UserName,
                     UserType = nameof(UserRoleEnum.Admin)
                 };
-                int id = _userService.CreateUser(admin);
+                int id = _userService.CreateUser(admin).Value;
                 return Ok(id);
             }
             return Forbid();
