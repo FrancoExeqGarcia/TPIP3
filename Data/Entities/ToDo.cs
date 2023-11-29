@@ -17,5 +17,7 @@ namespace TODOLIST.Data.Entities
         public int UserId { get; set; }
         [ForeignKey("ProjectId")]
         public int ProjectId { get; set; }
+        public Project Project { get; set; }
+
     }
 }

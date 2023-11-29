@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using TODOLIST.Data;
 using TODOLIST.Services.Interfaces;
 using TODOLIST.Services.Implementations;
+using TODOLIST.Data.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

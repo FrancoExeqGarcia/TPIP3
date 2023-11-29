@@ -109,20 +109,19 @@ namespace TODOLIST.Data.Entities
 
             //relación uno (project) a muchos (todo)
             modelBuilder.Entity<Project>()
-                .HasMany(pj => pj.ToDo)
+                .HasMany(pj => pj.ToDos)
                 .WithOne(td => td.Project)
                 .HasForeignKey(pj => pj.ProjectId);
 
-            //relación muchos (programer) a muchos (project)
-            modelBuilder.Entity<Programer>()
-                .HasMany(pr => pr.Project)
-                .WithMany(pj => pj.Programer)
-                .HasForeignKey(pj => pj.UserId);
+            //relación uno (admin) a muchos (project)
+            modelBuilder.Entity<Admin>()
+                .HasMany(pr => pr.Projects)
+                .WithOne(pj => pj.Admin);
             //relación uno (programer) a muchos (todo)
             modelBuilder.Entity<Programer>()
-                .HasMany(pr => pr.ToDo)
-                .WithOne(td => td.Programer)
-                .HasForeignKey(td => td.ToDoId);
+                .HasMany(pr => pr.ToDos)
+                .WithOne(td => td.Programer);
+
 
 
         }

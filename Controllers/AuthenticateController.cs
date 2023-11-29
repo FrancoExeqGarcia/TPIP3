@@ -16,8 +16,8 @@ namespace TODOLIST.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IConfiguration _config;
+        public IUserService _userService;
+        public IConfiguration _config;
 
         public AuthenticateController(IUserService userService, IConfiguration config)
         {
@@ -28,38 +28,30 @@ namespace TODOLIST.Controllers
         [HttpPost]
         public IActionResult Authenticate([FromBody] CredentialsDto credentialsDto)
         {
-            if (credentialsDto == null)
-            {
-                return BadRequest("Invalid credentials");
-            }
-
-            // Validar usuario
+            //valido usuario
             BaseResponse validateUserResult = _userService.ValidateUser(credentialsDto.Email, credentialsDto.Password);
-
             if (validateUserResult.Message == "wrong email")
             {
-                return BadRequest("Invalid email");
+                return BadRequest(validateUserResult.Message);
             }
             else if (validateUserResult.Message == "wrong password")
             {
-                return Unauthorized("Invalid password");
+                return Unauthorized();
             }
-
             if (validateUserResult.Result)
             {
-                // Obtener información del usuario directamente como UserDto
-                UserDto userDto = _userService.GetUserByEmail(credentialsDto.Email);
+                //generación del token
+                User user = _userService.GetUserByEmail(credentialsDto.Email);
+                //crear el token
+                var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Authentication:SecretForKey"])); //traemos la SecretKey del Json
 
-                // Crear el token
-                var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Authentication:SecretForKey"]));
                 var signature = new SigningCredentials(securityPassword, SecurityAlgorithms.HmacSha256);
 
-                var claimsForToken = new List<Claim>
-        {
-            //new Claim("sub", userDto.UserId.ToString()),
-            new Claim("email", userDto.Email),
-            new Claim("role", userDto.UserType)
-        };
+                //Los claims son datos en clave->valor que nos permiten guardar data del usuario.
+                var claimsForToken = new List<Claim>();
+                claimsForToken.Add(new Claim("sub", user.UserId.ToString())); //sub es una key estándar (unique user identifier)
+                claimsForToken.Add(new Claim("email", user.Email));
+                claimsForToken.Add(new Claim("role", user.UserType)); //puede ser "Client", "Admin" o "SuperAdmin"
 
                 var jwtSecurityToken = new JwtSecurityToken(
                     _config["Authentication:Issuer"],
@@ -72,10 +64,7 @@ namespace TODOLIST.Controllers
                 string tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
                 return Ok(tokenToReturn);
             }
-
-            return BadRequest("Invalid credentials");
+            return BadRequest();
         }
-
-
     }
 }

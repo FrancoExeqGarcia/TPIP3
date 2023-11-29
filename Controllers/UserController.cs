@@ -20,30 +20,8 @@ namespace TODOLIST.Controllers
             _userService = userService;
         }
 
-
-        [HttpGet("User/")]
-        public IActionResult GetUser()
-        {
-            string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
-            User? user = _userService.GetUserByEmail(loggedUserEmail);
-
-            if (user != null && user.State)
-            {
-                UserDto userDto = new UserDto()
-                {
-                    UserId = user.UserId,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Password = user.Password,
-                    UserType = user.UserType
-                };
-                return Ok(userDto);
-            }
-            return BadRequest();
-        }
-
         [HttpGet]
-        public IActionResult GetClients()
+        public IActionResult GetProgramers()
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
@@ -51,24 +29,24 @@ namespace TODOLIST.Controllers
 
             if (role == "Admin" || role == "SuperAdmin" && userLogged.State)
             {
-                return Ok(_userService.GetUsersByRole("Client").Value);
+                return Ok(_userService.GetUsersByRole("Client"));
             }
             return Forbid();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult CreateProgramer([FromBody] ProgramerPostDto clientPostDto) //sería la registración de un nuevo cliente
+        public IActionResult CreateProgramer([FromBody] ProgramerPostDto programerPostDto) //sería la registración de un nuevo cliente
         {
-            if (!_userService.CheckIfUserExists(clientPostDto.Email))
+            if (!_userService.CheckIfUserExists(programerPostDto.Email))
             {
                 Programer programer = new Programer()
                 {
-                    Email = clientPostDto.Email,
-                    Password = clientPostDto.Password,
-                    UserName = clientPostDto.UserName,
+                    Email = programerPostDto.Email,
+                    Password = programerPostDto.Password,
+                    UserName = programerPostDto.UserName,
                 };
-                int id = _userService.CreateUser(programer).Value;
+                int id = _userService.CreateUser(programer);
                 return Ok(id);
             }
             else
@@ -91,14 +69,14 @@ namespace TODOLIST.Controllers
                     UserName = adminPostDto.UserName,
                     UserType = nameof(UserRoleEnum.Admin)
                 };
-                int id = _userService.CreateUser(admin).Value;
+                int id = _userService.CreateUser(admin);
                 return Ok(id);
             }
             return Forbid();
         }
 
         [HttpPut]
-        public IActionResult UpdateProgramer([FromBody] ProgramerUpdateDto clientUpdateDto)
+        public IActionResult UpdateProgramer([FromBody] ProgramerUpdateDto programerUpdateDto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
@@ -108,8 +86,8 @@ namespace TODOLIST.Controllers
                 {
                     UserId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value),
                     Email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value,
-                    UserName = clientUpdateDto.UserName,
-                    Password = clientUpdateDto.Password,
+                    UserName = programerUpdateDto.UserName,
+                    Password = programerUpdateDto.Password,
                 };
                 _userService.UpdateUser(programerToUpdate);
                 return Ok();
