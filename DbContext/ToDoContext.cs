@@ -2,10 +2,10 @@
 using TODOLIST.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace TODOLIST.Data.Entities
+namespace TODOLIST.DBContext
 {
-    public class ToDoContext : DbContext
-    {
+    public class ToDoContext : DbContext 
+    { 
         public DbSet<User> Users { get; set; }
         public DbSet<ToDo> ToDo { get; set; }
         public DbSet<Project> Project { get; set; }
@@ -54,8 +54,8 @@ namespace TODOLIST.Data.Entities
                    Name = "Controlers",
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
-                   ProjectId =1,
-                   UserId=1
+                   ProjectId = 1,
+                   UserId = 1
                },
                new ToDo
                {
@@ -64,7 +64,7 @@ namespace TODOLIST.Data.Entities
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectId = 2,
-                   UserId=2
+                   UserId = 2
                },
                new ToDo
                {
@@ -73,7 +73,7 @@ namespace TODOLIST.Data.Entities
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectId = 3,
-                   UserId=3
+                   UserId = 3
                }
                );
             modelBuilder.Entity<Project>().HasData(
@@ -84,7 +84,7 @@ namespace TODOLIST.Data.Entities
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from USA",
-                   UserId=1
+                   UserId = 1
                },
                new Project
                {
