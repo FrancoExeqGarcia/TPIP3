@@ -19,7 +19,7 @@ namespace TODOLIST.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            var user = users.Find(u => u.Id == id);
+            var user = users.Find(u => u.UserId == id);
 
             if (user == null)
             {
@@ -32,14 +32,14 @@ namespace TODOLIST.Controllers
         [HttpPut("{id}")]
         public ActionResult<User> Put(int id, User updatedUser)
         {
-            var existingUser = users.Find(u => u.Id == id);
+            var existingUser = users.Find(u => u.UserId == id);
 
             if (existingUser == null)
             {
                 return NotFound();
             }
 
-            existingUser.Name = updatedUser.Name;
+            existingUser.UserName = updatedUser.UserName;
 
             return Ok(existingUser);
         }
@@ -47,7 +47,7 @@ namespace TODOLIST.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var user = users.Find(u => u.Id == id);
+            var user = users.Find(u => u.UserId == id);
 
             if (user == null)
             {

@@ -2,7 +2,7 @@
 using TODOLIST.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace TODOLIST.Data
+namespace TODOLIST.Data.Entities
 {
     public class ToDoContext : DbContext
     {
@@ -13,6 +13,7 @@ namespace TODOLIST.Data
         {
 
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasDiscriminator(u => u.UserType);
@@ -115,9 +116,33 @@ namespace TODOLIST.Data
             modelBuilder.Entity<Programer>()
                 .HasMany(pr => pr.ToDo)
                 .WithOne(td => td.Programer)
-                .HasForeignKey(td => td.UserId);
+                .HasForeignKey(td => td.ToDoId);
 
 
+        }
+        public async Task<int> CreateAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Task<IEnumerable<User>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Task<User> GetByIdAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Task UpdateAsync(User userToDelete)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Task<User?> GetFirstOrDefaultAsync(Func<object, bool> value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

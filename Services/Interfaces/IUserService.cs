@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TODOLIST.Data.Entities;
+using TODOLIST.Data.Models;
 
-namespace TODOLIST.Services
+namespace TODOLIST.Services.Interfaces
 {
     public interface IUserService
     {
@@ -11,5 +12,9 @@ namespace TODOLIST.Services
         Task CreateUserAsync(User user);
         Task UpdateUserAsync(int userId, User user);
         Task DeleteUserAsync(int userId);
+        BaseResponse ValidateUser(string email, string password);
+        UserDto? GetUserByEmail(string email);
+
+
     }
 }

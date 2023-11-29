@@ -1,12 +1,14 @@
-﻿using TODOLIST.Data.Models;
-using TODOLIST.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TODOLIST.Data.Entities;
+using TODOLIST.Services.Interfaces;
+using TODOLIST.Data.Models;
 
 namespace TODOLIST.Controllers
 {
@@ -14,8 +16,8 @@ namespace TODOLIST.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        public IUserService _userService;
-        public IConfiguration _config;
+        private readonly IUserService _userService;
+        private readonly IConfiguration _config;
 
         public AuthenticateController(IUserService userService, IConfiguration config)
         {
@@ -26,30 +28,38 @@ namespace TODOLIST.Controllers
         [HttpPost]
         public IActionResult Authenticate([FromBody] CredentialsDto credentialsDto)
         {
-            //valido usuario
+            if (credentialsDto == null)
+            {
+                return BadRequest("Invalid credentials");
+            }
+
+            // Validar usuario
             BaseResponse validateUserResult = _userService.ValidateUser(credentialsDto.Email, credentialsDto.Password);
+
             if (validateUserResult.Message == "wrong email")
             {
-                return BadRequest(validateUserResult.Message);
+                return BadRequest("Invalid email");
             }
             else if (validateUserResult.Message == "wrong password")
             {
-                return Unauthorized();
+                return Unauthorized("Invalid password");
             }
+
             if (validateUserResult.Result)
             {
-                //generación del token
-                User user = _userService.GetUserByEmail(credentialsDto.Email);
-                //crear el token
-                var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Authentication:SecretForKey"])); //traemos la SecretKey del Json
+                // Obtener información del usuario directamente como UserDto
+                UserDto userDto = _userService.GetUserByEmail(credentialsDto.Email);
 
+                // Crear el token
+                var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["Authentication:SecretForKey"]));
                 var signature = new SigningCredentials(securityPassword, SecurityAlgorithms.HmacSha256);
 
-                //Los claims son datos en clave->valor que nos permiten guardar data del usuario.
-                var claimsForToken = new List<Claim>();
-                claimsForToken.Add(new Claim("sub", user.Id.ToString())); //sub es una key estándar (unique user identifier)
-                claimsForToken.Add(new Claim("email", user.Email));
-                claimsForToken.Add(new Claim("role", user.UserType)); //puede ser "Client", "Admin" o "SuperAdmin"
+                var claimsForToken = new List<Claim>
+        {
+            //new Claim("sub", userDto.UserId.ToString()),
+            new Claim("email", userDto.Email),
+            new Claim("role", userDto.UserType)
+        };
 
                 var jwtSecurityToken = new JwtSecurityToken(
                     _config["Authentication:Issuer"],
@@ -62,7 +72,10 @@ namespace TODOLIST.Controllers
                 string tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
                 return Ok(tokenToReturn);
             }
-            return BadRequest();
+
+            return BadRequest("Invalid credentials");
         }
+
+
     }
 }

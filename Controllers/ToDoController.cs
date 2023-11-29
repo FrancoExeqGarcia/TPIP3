@@ -18,7 +18,7 @@ namespace TODOLIST.Controllers
         [HttpGet("{id}")]
         public ActionResult<Data.Entities.ToDo> Get(int id)
         {
-            var todo = todos.Find(t => t.Id == id);
+            var todo = todos.Find(t => t.ToDoId == id);
 
             if (todo == null)
             {
@@ -31,7 +31,7 @@ namespace TODOLIST.Controllers
         [HttpPut("{id}")]
         public ActionResult<Data.Entities.ToDo> Put(int id, Data.Entities.ToDo updatedToDo)
         {
-            var existingToDo = todos.Find(t => t.Id == id);
+            var existingToDo = todos.Find(t => t.ToDoId == id);
 
             if (existingToDo == null)
             {
@@ -48,7 +48,7 @@ namespace TODOLIST.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var todo = todos.Find(t => t.Id == id);
+            var todo = todos.Find(t => t.ToDoId == id);
 
             if (todo == null)
             {

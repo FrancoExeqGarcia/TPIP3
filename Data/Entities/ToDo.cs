@@ -12,5 +12,7 @@ namespace TODOLIST.Data.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int RealtedProject { get; set; }
+        public Programer Programer { get; set; }
+
     }
 }
