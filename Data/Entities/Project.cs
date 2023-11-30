@@ -14,8 +14,6 @@ namespace TODOLIST.Data.Entities
         public string Description { get; set; }
         public List<ToDo> ToDos { get; set; }
 
-        [ForeignKey("UserId")]
-        public Admin Admin { get; set; }
-        public int UserId { get; set; }
+        public List<Admin> Admins { get; set; }
     }
 }

@@ -55,7 +55,6 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectId = 1,
-                   UserId = 1
                },
                new ToDo
                {
@@ -64,7 +63,6 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectId = 2,
-                   UserId = 2
                },
                new ToDo
                {
@@ -73,7 +71,6 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectId = 3,
-                   UserId = 3
                }
                );
             modelBuilder.Entity<Project>().HasData(
@@ -84,7 +81,6 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from USA",
-                   UserId = 1
                },
                new Project
                {
@@ -93,7 +89,6 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from Arg",
-                   UserId = 2
                },
                new Project
                {
@@ -102,7 +97,6 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from EU",
-                   UserId = 3
                });
 
 
@@ -113,14 +107,11 @@ namespace TODOLIST.DBContext
                 .WithOne(td => td.Project)
                 .HasForeignKey(pj => pj.ProjectId);
 
-            //relación uno (admin) a muchos (project)
-            modelBuilder.Entity<Admin>()
-                .HasMany(pr => pr.Projects)
-                .WithOne(pj => pj.Admin);
-            //relación uno (programer) a muchos (todo)
-            modelBuilder.Entity<Programer>()
-                .HasMany(pr => pr.ToDos)
-                .WithOne(td => td.Programer);
+            //relación muchos (admin) a muchos (project)
+            modelBuilder.Entity<Project>()
+                    .HasMany(p => p.Admins)
+                    .WithMany(u => u.Projects);
+
 
 
 
