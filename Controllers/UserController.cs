@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Security.Claims;
 using TODOLIST.Data.Entities;
 using TODOLIST.Data.Models;
 using TODOLIST.Enums;
+using TODOLIST.Services.Implementations;
 using TODOLIST.Services.Interfaces;
 
 namespace TODOLIST.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -21,18 +21,18 @@ namespace TODOLIST.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProgramers()
+        public ActionResult<IEnumerable<Project>> Get()
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-            string loggedUserEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
-            User userLogged = _userService.GetUserByEmail(loggedUserEmail);
-
-            if (role == "Admin" || role == "SuperAdmin" && userLogged.State)
-            {
-                return Ok(_userService.GetUsersByRole("Client"));
-            }
-            return Forbid();
+            var users = _userService.GetAllUsers();
+            return Ok(users);
         }
+        [HttpGet("{id}")]
+        public ActionResult<IEnumerable<Project>> Get(int id)
+        {
+            var user = _userService.GetUserById(id);
+            return Ok(user);
+        }
+
 
         [AllowAnonymous]
         [HttpPost]
@@ -95,12 +95,21 @@ namespace TODOLIST.Controllers
             return Forbid();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteSelfUser() //usuario se borre a sí mismo
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUser(int id)
         {
-            int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            _userService.DeleteUser(id); //borrado lógico (el usuario seguirá en la base de datos)
-            return NoContent();
+            try
+            {
+                _userService.DeleteUser(id);
+                return NoContent(); // Devuelve 204 No Content si la eliminación fue exitosa
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return StatusCode(500, "Internal Server Error"); // Devuelve 500 Internal Server Error en caso de una excepción no manejada
+            }
         }
+
+
     }
 }

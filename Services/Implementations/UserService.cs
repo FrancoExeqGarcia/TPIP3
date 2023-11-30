@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using TODOLIST.Data.Entities;
 using TODOLIST.Data.Models;
 using TODOLIST.DBContext;
@@ -79,6 +80,16 @@ namespace TODOLIST.Services.Implementations
         public ErrorOr<List<User>> GetUsersByRole(string role)
         {
             return _context.Users.Where(u => u.UserType == role).ToList();
+        }
+
+        public List<User> GetAllUsers(string users)
+        {
+            return _context.Users.Where(u => u.UserName == users).ToList();
+        }
+
+        User IUserService.GetUserById(int userId)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserId == userId);
         }
     }
 }
