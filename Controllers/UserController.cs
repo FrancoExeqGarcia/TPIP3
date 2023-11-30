@@ -21,9 +21,9 @@ namespace TODOLIST.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get()
+        public ActionResult<IEnumerable<Project>> Get(string userName)
         {
-            var users = _userService.GetAllUsers();
+            var users = _userService.GetAllUsers(userName);
             return Ok(users);
         }
         [HttpGet("{id}")]

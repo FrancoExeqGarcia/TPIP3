@@ -14,9 +14,9 @@ namespace TODOLIST.Services.Interfaces
         public ErrorOr<int> CreateUser(User user);
         public ErrorOr<Updated> UpdateUser(User user);
         public ErrorOr<Deleted> DeleteUser(int userId);
-        List<User> GetAllUsers();
+        List<User> GetAllUsers(string users);
         public User GetUserById(int userId);
-
+        public User GetUserByEmail(string email);
 
     }
 }

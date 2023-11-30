@@ -56,7 +56,7 @@ namespace TODOLIST.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult UpdateProject(int projectId, [FromBody] ProjectUpdateDto projectUpdateDto)
         {
             var updatedProject = new Project
