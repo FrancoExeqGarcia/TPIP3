@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using TODOLIST.Data.Entities;
 using TODOLIST.Services.Interfaces;
+using TODOLIST.DBContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace TODOLIST.Services.Implementations
 {
     public class TodoService : IToDoService
     {
-        private readonly List<ToDo> _todos;
+        private readonly ToDoContext _todos;
 
-        public TodoService()
+        public TodoService(ToDoContext todoService)
         {
-            _todos = new List<ToDo>();
+            _todos = todoService;
         }
 
         public List<ToDo> GetAllToDos()
         {
-            return _todos.ToList();
+            return _todos.ToDo.ToList();
         }
 
         public ToDo GetTodoById(int todoId)
         {
-            return _todos.FirstOrDefault(t => t.ToDoId == todoId);
+            var todoEncontrado = _todos.ToDo.FirstOrDefault(t => t.ToDoId == todoId);
+            return todoEncontrado;
         }
 
         public ToDo CreateTodo(ToDo todo)
         {
-            int newTodoId = _todos.Count > 0 ? _todos.Max(t => t.ToDoId) + 1 : 1;
-            todo.ToDoId = newTodoId;
-            _todos.Add(todo);
+            var newTodoId = _todos.ToDo.Add(todo);
             return todo;
         }
 
         public ToDo UpdateTodo(int todoId, ToDo updatedTodo)
         {
-            var existingTodo = _todos.FirstOrDefault(t => t.ToDoId == todoId);
-
+            var existingTodo = _todos.ToDo.FirstOrDefault(t => t.ToDoId == todoId);
             if (existingTodo != null)
             {
                 existingTodo.Name = updatedTodo.Name;
@@ -49,7 +49,7 @@ namespace TODOLIST.Services.Implementations
 
         public void DeleteTodo(int todoId)
         {
-            var todo = _todos.FirstOrDefault(t => t.ToDoId == todoId);
+            var todo = _todos.ToDo.FirstOrDefault(t => t.ToDoId == todoId);
             if (todo != null)
             {
                 _todos.Remove(todo);
