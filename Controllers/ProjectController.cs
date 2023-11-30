@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using TODOLIST.Data.Entities;
+using TODOLIST.Data.Models;
 using TODOLIST.Services.Interfaces;
 
 namespace TODOLIST.Controllers
@@ -33,31 +34,67 @@ namespace TODOLIST.Controllers
             }
             return Ok(project);
         }
-
         [HttpPost]
-        public ActionResult<int> CreateProject([FromBody] Project project)
+        public IActionResult CreateProject([FromBody] ProjectCreateDto projectCreateDto)
         {
-            var projectId = _projectService.CreateProject(project);
-            return Ok(projectId);
+            var project = new Project
+            {
+                Name = projectCreateDto.Name,
+                StartDate = projectCreateDto.StartDate,
+                EndDate = projectCreateDto.EndDate,
+                Description = projectCreateDto.Description
+            };
+
+            try
+            {
+                var createdProject = _projectService.CreateProject(project);
+                return CreatedAtAction(nameof(GetProject), new { id = createdProject.ProjectId }, createdProject);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateProject(int id, [FromBody] Project project)
+        public IActionResult UpdateProject(int projectId, [FromBody] ProjectUpdateDto projectUpdateDto)
         {
-            if (id != project.ProjectId)
+            var updatedProject = new Project
             {
-                return BadRequest();
-            }
+                Name = projectUpdateDto.Name,
+                StartDate = projectUpdateDto.StartDate,
+                EndDate = projectUpdateDto.EndDate,
+                Description = projectUpdateDto.Description
+            };
 
-            _projectService.UpdateProject(project);
-            return NoContent();
+            try
+            {
+                var result = _projectService.UpdateProject(projectId, updatedProject);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+
         [HttpDelete("{id}")]
-        public ActionResult DeleteProject(int id)
+        public IActionResult DeleteProject(int id)
         {
-            _projectService.DeleteProject(id);
-            return NoContent();
+            try
+            {
+                _projectService.DeleteProject(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

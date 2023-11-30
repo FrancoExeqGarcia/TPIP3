@@ -25,18 +25,27 @@ namespace TODOLIST.Services.Implementations
             return _context.Project.Find(projectId);
         }
         
-        public int CreateProject(Project project)
+        public Project CreateProject(Project project)
         {
             _context.Project.Add(project);
             _context.SaveChanges();
-            return project.ProjectId;
+            return project;
         }
 
-        public Project UpdateProject(Project project)
+        public Project UpdateProject(int projectId, Project updatedProject)
         {
-            _context.Update(project);
+            var existingProject =_context.Project.Find(projectId);
+            if (existingProject == null) 
+            {
+                return null;
+            }
+            existingProject.Name = updatedProject.Name;
+            existingProject.StartDate = updatedProject.StartDate;
+            existingProject.EndDate = updatedProject.EndDate;
+            existingProject.Description = updatedProject.Description;
+            
             _context.SaveChanges();
-            return project;
+            return existingProject;
         }
 
         public void DeleteProject(int projectId)

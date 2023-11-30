@@ -7,8 +7,8 @@ namespace TODOLIST.Services.Interfaces
     {
         List<Project> GetAllProjects();
         Project GetProjectById(int projectId);
-        int CreateProject(Project project);
-        Project UpdateProject(Project project);
+        Project CreateProject(Project project);
+        Project UpdateProject(int projectId, Project project);
         void DeleteProject(int projectId);
     }
 }
