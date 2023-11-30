@@ -19,7 +19,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 // Configure DbContext with SQL Server connection string
 builder.Services.AddDbContext<ToDoContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 // Configure Swagger

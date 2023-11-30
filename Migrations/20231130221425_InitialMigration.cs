@@ -13,12 +13,12 @@ namespace TODOLIST.Migrations
                 name: "Project",
                 columns: table => new
                 {
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,13 +29,13 @@ namespace TODOLIST.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<bool>(type: "bit", nullable: false)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    UserType = table.Column<string>(type: "TEXT", nullable: false),
+                    State = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,8 +46,8 @@ namespace TODOLIST.Migrations
                 name: "AdminProject",
                 columns: table => new
                 {
-                    AdminsUserId = table.Column<int>(type: "int", nullable: false),
-                    ProjectsProjectId = table.Column<int>(type: "int", nullable: false)
+                    AdminsUserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProjectsProjectId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,13 +70,13 @@ namespace TODOLIST.Migrations
                 name: "ToDo",
                 columns: table => new
                 {
-                    ToDoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    ProgramerUserId = table.Column<int>(type: "int", nullable: true)
+                    ToDoId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProgramerUserId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,22 +97,32 @@ namespace TODOLIST.Migrations
             migrationBuilder.InsertData(
                 table: "Project",
                 columns: new[] { "ProjectId", "Description", "EndDate", "Name", "StartDate" },
-                values: new object[,]
-                {
-                    { 1, "Project from USA", new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Project1", new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "Project from Arg", new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Project2", new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, "Project from EU", new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Project3", new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
+                values: new object[] { 1, "Project from USA", new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Project1", new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Project",
+                columns: new[] { "ProjectId", "Description", "EndDate", "Name", "StartDate" },
+                values: new object[] { 2, "Project from Arg", new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Project2", new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Project",
+                columns: new[] { "ProjectId", "Description", "EndDate", "Name", "StartDate" },
+                values: new object[] { 3, "Project from EU", new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Project3", new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "Email", "Password", "State", "UserName", "UserType" },
-                values: new object[,]
-                {
-                    { 2, "francoexequiel.garcia150@gmail.com", "123456", true, "exegar", "Admin" },
-                    { 1, "ramirodicarlo2@gmail.com", "123456", true, "rdic", "Programer" },
-                    { 3, "superadmin@gmail.com", "123456", true, "superadmin", "SuperAdmin" }
-                });
+                values: new object[] { 2, "francoexequiel.garcia150@gmail.com", "123456", true, "exegar", "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "Password", "State", "UserName", "UserType" },
+                values: new object[] { 1, "ramirodicarlo2@gmail.com", "123456", true, "rdic", "Programer" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "Password", "State", "UserName", "UserType" },
+                values: new object[] { 3, "superadmin@gmail.com", "123456", true, "superadmin", "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "ToDo",
