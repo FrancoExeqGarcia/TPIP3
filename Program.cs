@@ -12,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IToDoService, TodoService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 
 // Configure DbContext with SQL Server connection string

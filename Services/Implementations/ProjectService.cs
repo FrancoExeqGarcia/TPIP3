@@ -32,10 +32,11 @@ namespace TODOLIST.Services.Implementations
             return project.ProjectId;
         }
 
-        public void UpdateProject(Project project)
+        public Project UpdateProject(Project project)
         {
-            _context.Entry(project).State = EntityState.Modified;
+            _context.Update(project);
             _context.SaveChanges();
+            return project;
         }
 
         public void DeleteProject(int projectId)
