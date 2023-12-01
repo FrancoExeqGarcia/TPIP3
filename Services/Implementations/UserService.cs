@@ -101,7 +101,7 @@ namespace TODOLIST.Services.Implementations
 
         public List<User> GetAllUsers()
         {
-            return _context.Users.ToList();
+            return _context.Users.Include(e => e.Project).ToList();
         }
 
         User? IUserService.GetUserById(int userId)

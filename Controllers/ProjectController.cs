@@ -50,7 +50,8 @@ namespace TODOLIST.Controllers
                     Name = projectCreateDto.Name,
                     StartDate = projectCreateDto.StartDate,
                     EndDate = projectCreateDto.EndDate,
-                    Description = projectCreateDto.Description
+                    Description = projectCreateDto.Description,
+                    UserID = projectCreateDto.UserID,
                 };
 
                 try

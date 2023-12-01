@@ -54,6 +54,7 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from USA",
+                   UserID = 1,
                },
                new Project
                {
@@ -62,6 +63,7 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from Arg",
+                   UserID=1,
                },
                new Project
                {
@@ -70,6 +72,7 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    Description = "Project from EU",
+                   UserID = 1,
                });
 
             modelBuilder.Entity<ToDo>().HasData(
@@ -101,6 +104,9 @@ namespace TODOLIST.DBContext
             //relación uno (project) a muchos (todo)
             modelBuilder.Entity<Project>()
                 .HasMany(pj => pj.ToDos);
+            //relación uno (programer) a muchos (project)
+            modelBuilder.Entity<User>()
+                .HasMany(pr => pr.Project);
 
 
         }

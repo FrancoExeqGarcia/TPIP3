@@ -11,8 +11,8 @@ using TODOLIST.DBContext;
 namespace TODOLIST.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20231201180854_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231201182427_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,9 +45,14 @@ namespace TODOLIST.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ProjectId");
 
                     b.HasIndex("AdminUserId");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Project");
 
@@ -59,7 +64,8 @@ namespace TODOLIST.Migrations
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Project1",
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true
+                            State = true,
+                            UserID = 1
                         },
                         new
                         {
@@ -68,7 +74,8 @@ namespace TODOLIST.Migrations
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Project2",
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true
+                            State = true,
+                            UserID = 1
                         },
                         new
                         {
@@ -77,7 +84,8 @@ namespace TODOLIST.Migrations
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Project3",
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true
+                            State = true,
+                            UserID = 1
                         });
                 });
 
@@ -236,6 +244,12 @@ namespace TODOLIST.Migrations
                     b.HasOne("TODOLIST.Data.Entities.Admin", null)
                         .WithMany("Projects")
                         .HasForeignKey("AdminUserId");
+
+                    b.HasOne("TODOLIST.Data.Entities.User", null)
+                        .WithMany("Project")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TODOLIST.Data.Entities.ToDo", b =>
@@ -250,6 +264,11 @@ namespace TODOLIST.Migrations
             modelBuilder.Entity("TODOLIST.Data.Entities.Project", b =>
                 {
                     b.Navigation("ToDos");
+                });
+
+            modelBuilder.Entity("TODOLIST.Data.Entities.User", b =>
+                {
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("TODOLIST.Data.Entities.Admin", b =>

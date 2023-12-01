@@ -10,7 +10,7 @@ namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     public class TodoController : ControllerBase
     {
         private readonly IToDoService _todoService;
@@ -48,7 +48,8 @@ namespace TODOLIST.Controllers
                 Name = toDoCreateDto.Name,
                 StartDate = toDoCreateDto.StartDate,
                 EndDate = toDoCreateDto.EndDate,
-            };
+                ProjectID = toDoCreateDto.ProjectID,
+    };
 
             try
             {
