@@ -24,13 +24,13 @@ namespace TODOLIST.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get()
+        public ActionResult<IEnumerable<Project>> GetAllUsers()
         {
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<Project>> Get(int id)
+        public ActionResult<IEnumerable<Project>> GetUserById(int id)
         {
             var user = _userService.GetUserById(id);
             return Ok(user);
@@ -53,8 +53,8 @@ namespace TODOLIST.Controllers
                         Password = programerPostDto.Password,
                         UserName = programerPostDto.UserName,
                     };
-                    int id = _userService.CreateUser(programer).Value;
-                    return Ok(result);
+                    var createdProgramer = _userService.CreateUser(programer);
+                    return CreatedAtAction(nameof(GetAllUsers), new { id = createdProgramer.UserId }, createdProgramer);
                 }
                 else
                 {
@@ -80,8 +80,8 @@ namespace TODOLIST.Controllers
                     UserName = adminPostDto.UserName,
                     UserType = nameof(UserRoleEnum.Admin)
                 };
-                int id = _userService.CreateUser(admin).Value;
-                return Ok(result);
+                var createdAdmin = _userService.CreateUser(admin);
+                return CreatedAtAction(nameof(GetAllUsers), new { id = createdAdmin.UserId }, createdAdmin);
             }
             return Forbid();
         }
@@ -124,15 +124,17 @@ namespace TODOLIST.Controllers
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             if (role == "SuperAdmin")
             {
-                    try
+                try
+                {
+                if (_userService.DeleteUser(id))
                     {
-                    _userService.DeleteUser(id);
-                    return NoContent(); // Devuelve 204 No Content si la eliminación fue exitosa
+                        return Ok($"User {id} eliminado");
                     }
+                }
                 catch (Exception ex)
-                    {
-                    return StatusCode(500, "Internal Server Error"); // Devuelve 500 Internal Server Error en caso de una excepción no manejada
-                 }
+                {
+                return BadRequest(ex.Message); 
+                }
             }
             return Forbid();
         }
