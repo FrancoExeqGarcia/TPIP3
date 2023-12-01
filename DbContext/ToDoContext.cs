@@ -80,6 +80,7 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectRelatedID = 1,
+                   UserID = 1,
                },
                new ToDo
                {
@@ -88,6 +89,7 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectRelatedID = 2,
+                   UserID = 2,
                },
                new ToDo
                {
@@ -96,6 +98,7 @@ namespace TODOLIST.DBContext
                    StartDate = new DateTime(2023, 11, 29),
                    EndDate = new DateTime(2023, 11, 30),
                    ProjectRelatedID = 3,
+                   UserID =3,
                });
 
             //relación uno (project) a muchos (todo)
@@ -103,6 +106,11 @@ namespace TODOLIST.DBContext
                 .HasMany(pj => pj.ToDos)
                 .WithOne(td => td.Project)
                 .HasForeignKey(pj => pj.ProjectRelatedID);
+            //relación uno (programer) a muchos (todo)
+            modelBuilder.Entity<Programer>()
+                .HasMany(pj => pj.ToDos)
+                .WithOne(td => td.Programer)
+                .HasForeignKey(pj => pj.UserID);
 
 
         }

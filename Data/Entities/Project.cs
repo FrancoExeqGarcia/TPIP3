@@ -14,6 +14,6 @@ namespace TODOLIST.Data.Entities
         public string Description { get; set; }
         public bool State { get; set; } = true;
         public ICollection<ToDo> ToDos { get; set; } = new List<ToDo>();
-        public ICollection<Programer> Programers { get; set; } = new List<Programer>();
+
     }
 }

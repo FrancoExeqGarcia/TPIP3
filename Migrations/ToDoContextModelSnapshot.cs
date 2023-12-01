@@ -101,9 +101,14 @@ namespace TODOLIST.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ToDoId");
 
                     b.HasIndex("ProjectRelatedID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("ToDo");
 
@@ -115,7 +120,8 @@ namespace TODOLIST.Migrations
                             Name = "Controlers",
                             ProjectRelatedID = 1,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true
+                            State = true,
+                            UserID = 1
                         },
                         new
                         {
@@ -124,7 +130,8 @@ namespace TODOLIST.Migrations
                             Name = "Entities",
                             ProjectRelatedID = 2,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true
+                            State = true,
+                            UserID = 2
                         },
                         new
                         {
@@ -133,7 +140,8 @@ namespace TODOLIST.Migrations
                             Name = "Services",
                             ProjectRelatedID = 3,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true
+                            State = true,
+                            UserID = 3
                         });
                 });
 
@@ -195,11 +203,6 @@ namespace TODOLIST.Migrations
                 {
                     b.HasBaseType("TODOLIST.Data.Entities.User");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("ProjectId");
-
                     b.HasDiscriminator().HasValue("Programer");
 
                     b.HasData(
@@ -249,26 +252,30 @@ namespace TODOLIST.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Project");
-                });
+                    b.HasOne("TODOLIST.Data.Entities.Programer", "Programer")
+                        .WithMany("ToDos")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("TODOLIST.Data.Entities.Programer", b =>
-                {
-                    b.HasOne("TODOLIST.Data.Entities.Project", null)
-                        .WithMany("Programers")
-                        .HasForeignKey("ProjectId");
+                    b.Navigation("Programer");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("TODOLIST.Data.Entities.Project", b =>
                 {
-                    b.Navigation("Programers");
-
                     b.Navigation("ToDos");
                 });
 
             modelBuilder.Entity("TODOLIST.Data.Entities.Admin", b =>
                 {
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("TODOLIST.Data.Entities.Programer", b =>
+                {
+                    b.Navigation("ToDos");
                 });
 #pragma warning restore 612, 618
         }
