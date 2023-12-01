@@ -12,6 +12,28 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(setupAction =>
+{
+    setupAction.AddSecurityDefinition("LorenLingerieApiBearerAuth", new OpenApiSecurityScheme() //Esto va a permitir usar swagger con el token.
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Acá pegar el token generado al loguearse."
+    });
+
+    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "LorenLingerieApiBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definición
+                }, new List<string>() }
+    });
+});
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IToDoService, TodoService>();

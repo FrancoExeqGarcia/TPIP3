@@ -154,6 +154,9 @@ namespace TODOLIST.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("State")
                         .HasColumnType("INTEGER");
 
@@ -184,6 +187,7 @@ namespace TODOLIST.Migrations
                             UserId = 2,
                             Email = "francoexequiel.garcia150@gmail.com",
                             Password = "123456",
+                            Role = 0,
                             State = true,
                             UserName = "exegar",
                             UserType = "Admin"
@@ -202,6 +206,7 @@ namespace TODOLIST.Migrations
                             UserId = 1,
                             Email = "ramirodicarlo2@gmail.com",
                             Password = "123456",
+                            Role = 0,
                             State = true,
                             UserName = "rdic",
                             UserType = "Programer"
@@ -220,6 +225,7 @@ namespace TODOLIST.Migrations
                             UserId = 3,
                             Email = "superadmin@gmail.com",
                             Password = "123456",
+                            Role = 0,
                             State = true,
                             UserName = "superadmin",
                             UserType = "SuperAdmin"
