@@ -33,6 +33,10 @@ namespace TODOLIST.Controllers
         public ActionResult<IEnumerable<Project>> GetUserById(int id)
         {
             var user = _userService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
             return Ok(user);
         }
 

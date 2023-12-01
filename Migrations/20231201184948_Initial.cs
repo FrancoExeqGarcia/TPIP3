@@ -15,11 +15,10 @@ namespace TODOLIST.Migrations
                 {
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
                     UserType = table.Column<string>(type: "TEXT", nullable: false),
-                    Role = table.Column<int>(type: "INTEGER", nullable: false),
                     State = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -82,18 +81,18 @@ namespace TODOLIST.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "Email", "Password", "Role", "State", "UserName", "UserType" },
-                values: new object[] { 2, "francoexequiel.garcia150@gmail.com", "123456", 0, true, "exegar", "Admin" });
+                columns: new[] { "UserId", "Email", "Password", "State", "UserName", "UserType" },
+                values: new object[] { 2, "francoexequiel.garcia150@gmail.com", "123456", true, "exegar", "Admin" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "Email", "Password", "Role", "State", "UserName", "UserType" },
-                values: new object[] { 1, "ramirodicarlo2@gmail.com", "123456", 0, true, "rdic", "Programer" });
+                columns: new[] { "UserId", "Email", "Password", "State", "UserName", "UserType" },
+                values: new object[] { 1, "ramirodicarlo2@gmail.com", "123456", true, "rdic", "Programer" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "Email", "Password", "Role", "State", "UserName", "UserType" },
-                values: new object[] { 3, "superadmin@gmail.com", "123456", 0, true, "superadmin", "SuperAdmin" });
+                columns: new[] { "UserId", "Email", "Password", "State", "UserName", "UserType" },
+                values: new object[] { 3, "superadmin@gmail.com", "123456", true, "superadmin", "SuperAdmin" });
 
             migrationBuilder.InsertData(
                 table: "Project",

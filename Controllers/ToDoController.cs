@@ -10,7 +10,7 @@ namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    //[Authorize]
+    [Authorize]
     public class TodoController : ControllerBase
     {
         private readonly IToDoService _todoService;

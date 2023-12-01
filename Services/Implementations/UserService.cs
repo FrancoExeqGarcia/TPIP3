@@ -79,16 +79,23 @@ namespace TODOLIST.Services.Implementations
         public bool DeleteUser(int userId)
         {
             User userToBeDeleted = _context.Users.SingleOrDefault(u => u.UserId == userId); //el usuario a borrar va a existir en la BBDD porque el userId viene del token del usuario que inició sesión. Si inicia sesión, su usuario ya existe.
-            if (userToBeDeleted.State != false)
+            if (userToBeDeleted != null)
             {
-                userToBeDeleted.State = false; //borrado lógico. El usuario seguirá en la BBDD pero con un state 0 (false)
-                _context.Update(userToBeDeleted);
-                _context.SaveChanges();
-                return true;
+                if (userToBeDeleted.State != false)
+                {
+                    userToBeDeleted.State = false; //borrado lógico. El usuario seguirá en la BBDD pero con un state 0 (false)
+                    _context.Update(userToBeDeleted);
+                    _context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                throw new ArgumentNullException(nameof(userToBeDeleted), "El User a ser eliminado no fue encontrado.");
             }
         }
 
