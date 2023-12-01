@@ -5,7 +5,7 @@ namespace TODOLIST.Data.Entities
 {
     public class ToDo
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public int ToDoId { get; set; }
         public string Name { get; set; }
@@ -14,7 +14,6 @@ namespace TODOLIST.Data.Entities
         [ForeignKey("ProjectRelatedID")]
         public Project Project { get; set; }
         public int ProjectRelatedID { get; set; }
-        
         public bool State { get; set; } = true;
 
     }

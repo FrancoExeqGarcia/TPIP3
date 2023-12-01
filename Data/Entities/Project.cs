@@ -5,7 +5,7 @@ namespace TODOLIST.Data.Entities
 {
     public class Project
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public int ProjectId { get; set; }
         public string Name { get; set; }
