@@ -51,13 +51,29 @@ namespace TODOLIST.Services.Implementations
             return existingTodo;
         }
 
-        public ErrorOr<Deleted> DeleteTodo(int todoId)
+        public bool DeleteTodo(int todoId)
         {
-            ToDo toDoToBeDeleted = _todos.ToDo.SingleOrDefault(u => u.ToDoId == todoId); //el usuario a borrar va a existir en la BBDD porque el userId viene del token del usuario que inició sesión. Si inicia sesión, su usuario ya existe.
-            toDoToBeDeleted.State = false; //borrado lógico. El usuario seguirá en la BBDD pero con un state 0 (false)
-            _todos.Update(toDoToBeDeleted);
-            _todos.SaveChanges();
-            return Result.Deleted;
+            ToDo toDoToBeDeleted = _todos.ToDo.SingleOrDefault(u => u.ToDoId == todoId);
+
+            if (toDoToBeDeleted != null)
+            {
+                if (toDoToBeDeleted.State != false)
+                {
+                    toDoToBeDeleted.State = false;
+                    _todos.Update(toDoToBeDeleted);
+                    _todos.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(toDoToBeDeleted), "El ToDo a ser eliminado no fue encontrado.");
+            }
         }
+
     }
 }

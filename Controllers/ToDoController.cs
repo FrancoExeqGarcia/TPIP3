@@ -86,17 +86,20 @@ namespace TODOLIST.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteToDo(int id)
+        public IActionResult DeleteToDo(int id)
         {
             try
             {
-                _todoService.DeleteTodo(id);
-                return NoContent();//204 si la eliminacion fue exitosa
+                if(_todoService.DeleteTodo(id))
+                {
+                    return Ok($"Todo {id} eliminado");
+                }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal Server Error");// en caso de una excepcion no manejada devuelve 500 internal server error
+                return BadRequest(ex.Message);// en caso de una excepcion no manejada devuelve 500 internal server error
             }
+            return Forbid();
         }
     }
 }

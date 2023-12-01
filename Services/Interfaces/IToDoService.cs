@@ -10,6 +10,6 @@ namespace TODOLIST.Services.Interfaces
         ToDo GetTodoById(int todoId);
         ToDo CreateTodo(ToDo toDo);
         ToDo UpdateTodo(int todoId, ToDo updatedTodo);
-        public ErrorOr<Deleted> DeleteTodo(int todoId);
+        bool DeleteTodo(int todoId);
     }
 }
