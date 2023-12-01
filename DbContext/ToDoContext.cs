@@ -46,33 +46,6 @@ namespace TODOLIST.DBContext
                     UserName = "superadmin",
                     UserType = nameof(UserRoleEnum.SuperAdmin)
                 });
-
-            modelBuilder.Entity<ToDo>().HasData(
-               new ToDo
-               {
-                   ToDoId = 1,
-                   Name = "Controlers",
-                   StartDate = new DateTime(2023, 11, 29),
-                   EndDate = new DateTime(2023, 11, 30),
-                   ProjectId = 1,
-               },
-               new ToDo
-               {
-                   ToDoId = 2,
-                   Name = "Entities",
-                   StartDate = new DateTime(2023, 11, 29),
-                   EndDate = new DateTime(2023, 11, 30),
-                   ProjectId = 2,
-               },
-               new ToDo
-               {
-                   ToDoId = 3,
-                   Name = "Services",
-                   StartDate = new DateTime(2023, 11, 29),
-                   EndDate = new DateTime(2023, 11, 30),
-                   ProjectId = 3,
-               }
-               );
             modelBuilder.Entity<Project>().HasData(
                new Project
                {
@@ -99,20 +72,37 @@ namespace TODOLIST.DBContext
                    Description = "Project from EU",
                });
 
-
+            modelBuilder.Entity<ToDo>().HasData(
+               new ToDo
+               {
+                   ToDoId = 1,
+                   Name = "Controlers",
+                   StartDate = new DateTime(2023, 11, 29),
+                   EndDate = new DateTime(2023, 11, 30),
+                   ProjectRelatedID = 1,
+               },
+               new ToDo
+               {
+                   ToDoId = 2,
+                   Name = "Entities",
+                   StartDate = new DateTime(2023, 11, 29),
+                   EndDate = new DateTime(2023, 11, 30),
+                   ProjectRelatedID = 2,
+               },
+               new ToDo
+               {
+                   ToDoId = 3,
+                   Name = "Services",
+                   StartDate = new DateTime(2023, 11, 29),
+                   EndDate = new DateTime(2023, 11, 30),
+                   ProjectRelatedID = 3,
+               });
 
             //relación uno (project) a muchos (todo)
             modelBuilder.Entity<Project>()
                 .HasMany(pj => pj.ToDos)
                 .WithOne(td => td.Project)
-                .HasForeignKey(pj => pj.ProjectId);
-
-            //relación muchos (admin) a muchos (project)
-            modelBuilder.Entity<Project>()
-                    .HasMany(p => p.Admins)
-                    .WithMany(u => u.Projects);
-
-
+                .HasForeignKey(pj => pj.ProjectRelatedID);
 
 
         }

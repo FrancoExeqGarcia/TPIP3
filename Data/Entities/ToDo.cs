@@ -11,9 +11,10 @@ namespace TODOLIST.Data.Entities
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        [ForeignKey("ProjectId")]
-        public int ProjectId { get; set; }
+        [ForeignKey("ProjectRelatedID")]
         public Project Project { get; set; }
+        public int ProjectRelatedID { get; set; }
+        
         public bool State { get; set; } = true;
 
     }

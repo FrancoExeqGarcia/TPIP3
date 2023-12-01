@@ -17,25 +17,13 @@ namespace TODOLIST.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.0");
 
-            modelBuilder.Entity("AdminProject", b =>
-                {
-                    b.Property<int>("AdminsUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProjectsProjectId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("AdminsUserId", "ProjectsProjectId");
-
-                    b.HasIndex("ProjectsProjectId");
-
-                    b.ToTable("AdminProject");
-                });
-
             modelBuilder.Entity("TODOLIST.Data.Entities.Project", b =>
                 {
                     b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("AdminUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -56,6 +44,8 @@ namespace TODOLIST.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ProjectId");
+
+                    b.HasIndex("AdminUserId");
 
                     b.ToTable("Project");
 
@@ -102,10 +92,7 @@ namespace TODOLIST.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProgramerUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectRelatedID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartDate")
@@ -116,9 +103,7 @@ namespace TODOLIST.Migrations
 
                     b.HasKey("ToDoId");
 
-                    b.HasIndex("ProgramerUserId");
-
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectRelatedID");
 
                     b.ToTable("ToDo");
 
@@ -128,7 +113,7 @@ namespace TODOLIST.Migrations
                             ToDoId = 1,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Controlers",
-                            ProjectId = 1,
+                            ProjectRelatedID = 1,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             State = true
                         },
@@ -137,7 +122,7 @@ namespace TODOLIST.Migrations
                             ToDoId = 2,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Entities",
-                            ProjectId = 2,
+                            ProjectRelatedID = 2,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             State = true
                         },
@@ -146,7 +131,7 @@ namespace TODOLIST.Migrations
                             ToDoId = 3,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Services",
-                            ProjectId = 3,
+                            ProjectRelatedID = 3,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             State = true
                         });
@@ -210,6 +195,11 @@ namespace TODOLIST.Migrations
                 {
                     b.HasBaseType("TODOLIST.Data.Entities.User");
 
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("ProjectId");
+
                     b.HasDiscriminator().HasValue("Programer");
 
                     b.HasData(
@@ -244,44 +234,41 @@ namespace TODOLIST.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AdminProject", b =>
+            modelBuilder.Entity("TODOLIST.Data.Entities.Project", b =>
                 {
                     b.HasOne("TODOLIST.Data.Entities.Admin", null)
-                        .WithMany()
-                        .HasForeignKey("AdminsUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TODOLIST.Data.Entities.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectsProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Projects")
+                        .HasForeignKey("AdminUserId");
                 });
 
             modelBuilder.Entity("TODOLIST.Data.Entities.ToDo", b =>
                 {
-                    b.HasOne("TODOLIST.Data.Entities.Programer", null)
-                        .WithMany("ToDos")
-                        .HasForeignKey("ProgramerUserId");
-
                     b.HasOne("TODOLIST.Data.Entities.Project", "Project")
                         .WithMany("ToDos")
-                        .HasForeignKey("ProjectId")
+                        .HasForeignKey("ProjectRelatedID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("TODOLIST.Data.Entities.Programer", b =>
+                {
+                    b.HasOne("TODOLIST.Data.Entities.Project", null)
+                        .WithMany("Programers")
+                        .HasForeignKey("ProjectId");
+                });
+
             modelBuilder.Entity("TODOLIST.Data.Entities.Project", b =>
                 {
+                    b.Navigation("Programers");
+
                     b.Navigation("ToDos");
                 });
 
-            modelBuilder.Entity("TODOLIST.Data.Entities.Programer", b =>
+            modelBuilder.Entity("TODOLIST.Data.Entities.Admin", b =>
                 {
-                    b.Navigation("ToDos");
+                    b.Navigation("Projects");
                 });
 #pragma warning restore 612, 618
         }
