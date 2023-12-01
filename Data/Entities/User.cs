@@ -14,6 +14,7 @@ namespace TODOLIST.Data.Entities
         [Required]
         public string UserName { get; set; }
         public string UserType { get; set; } = nameof(UserRoleEnum.Programer); //para usar el nombre de la propiedad del enum
+        public UserRoleEnum Role { get; set; } = UserRoleEnum.Programer; //Defecto al minimo
         public bool State { get; set; } = true;
     }
 }

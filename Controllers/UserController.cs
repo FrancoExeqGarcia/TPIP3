@@ -12,6 +12,8 @@ using TODOLIST.Services.Interfaces;
 namespace TODOLIST.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -32,7 +34,17 @@ namespace TODOLIST.Controllers
             var user = _userService.GetUserById(id);
             return Ok(user);
         }
-
+        [HttpGet]
+        public IActionResult GetAllUser()
+        {
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            User userLogged = _userService.GetUserByEmail(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value);
+            if (role == "Admin" && userLogged.State)
+            {
+                return Ok(_userService.GetAllUsers());
+            }
+            return Forbid();
+        }
 
         [AllowAnonymous]
         [HttpPost]

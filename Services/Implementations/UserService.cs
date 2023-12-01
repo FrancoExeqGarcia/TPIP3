@@ -29,7 +29,7 @@ namespace TODOLIST.Services.Implementations
 
         public BaseResponse ValidateUser(string email, string password)
         {
-            BaseResponse response = new();
+            BaseResponse response = new BaseResponse();
             User? userForLogin = _context.Users.SingleOrDefault(u => u.Email == email);
             if (userForLogin != null) //Si lo encuentra, entra al if (distinto de null)
             {
