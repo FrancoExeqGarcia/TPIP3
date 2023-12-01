@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TODOLIST.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,24 +59,17 @@ namespace TODOLIST.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ProjectRelatedID = table.Column<int>(type: "INTEGER", nullable: false),
-                    State = table.Column<bool>(type: "INTEGER", nullable: false),
-                    UserID = table.Column<int>(type: "INTEGER", nullable: false)
+                    ProjectID = table.Column<int>(type: "INTEGER", nullable: false),
+                    State = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ToDo", x => x.ToDoId);
                     table.ForeignKey(
-                        name: "FK_ToDo_Project_ProjectRelatedID",
-                        column: x => x.ProjectRelatedID,
+                        name: "FK_ToDo_Project_ProjectID",
+                        column: x => x.ProjectID,
                         principalTable: "Project",
                         principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ToDo_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -112,18 +105,18 @@ namespace TODOLIST.Migrations
 
             migrationBuilder.InsertData(
                 table: "ToDo",
-                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectRelatedID", "StartDate", "State", "UserID" },
-                values: new object[] { 1, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Controlers", 1, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 1 });
+                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectID", "StartDate", "State" },
+                values: new object[] { 1, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Controlers", 1, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
 
             migrationBuilder.InsertData(
                 table: "ToDo",
-                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectRelatedID", "StartDate", "State", "UserID" },
-                values: new object[] { 2, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Entities", 2, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 2 });
+                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectID", "StartDate", "State" },
+                values: new object[] { 2, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Entities", 2, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
 
             migrationBuilder.InsertData(
                 table: "ToDo",
-                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectRelatedID", "StartDate", "State", "UserID" },
-                values: new object[] { 3, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Services", 3, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 3 });
+                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectID", "StartDate", "State" },
+                values: new object[] { 3, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Services", 3, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Project_AdminUserId",
@@ -131,14 +124,9 @@ namespace TODOLIST.Migrations
                 column: "AdminUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ToDo_ProjectRelatedID",
+                name: "IX_ToDo_ProjectID",
                 table: "ToDo",
-                column: "ProjectRelatedID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ToDo_UserID",
-                table: "ToDo",
-                column: "UserID");
+                column: "ProjectID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

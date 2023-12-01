@@ -92,7 +92,7 @@ namespace TODOLIST.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProjectRelatedID")
+                    b.Property<int>("ProjectID")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("StartDate")
@@ -101,14 +101,9 @@ namespace TODOLIST.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("ToDoId");
 
-                    b.HasIndex("ProjectRelatedID");
-
-                    b.HasIndex("UserID");
+                    b.HasIndex("ProjectID");
 
                     b.ToTable("ToDo");
 
@@ -118,30 +113,27 @@ namespace TODOLIST.Migrations
                             ToDoId = 1,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Controlers",
-                            ProjectRelatedID = 1,
+                            ProjectID = 1,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true,
-                            UserID = 1
+                            State = true
                         },
                         new
                         {
                             ToDoId = 2,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Entities",
-                            ProjectRelatedID = 2,
+                            ProjectID = 2,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true,
-                            UserID = 2
+                            State = true
                         },
                         new
                         {
                             ToDoId = 3,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Services",
-                            ProjectRelatedID = 3,
+                            ProjectID = 3,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            State = true,
-                            UserID = 3
+                            State = true
                         });
                 });
 
@@ -246,21 +238,11 @@ namespace TODOLIST.Migrations
 
             modelBuilder.Entity("TODOLIST.Data.Entities.ToDo", b =>
                 {
-                    b.HasOne("TODOLIST.Data.Entities.Project", "Project")
+                    b.HasOne("TODOLIST.Data.Entities.Project", null)
                         .WithMany("ToDos")
-                        .HasForeignKey("ProjectRelatedID")
+                        .HasForeignKey("ProjectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("TODOLIST.Data.Entities.Programer", "Programer")
-                        .WithMany("ToDos")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Programer");
-
-                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("TODOLIST.Data.Entities.Project", b =>
@@ -271,11 +253,6 @@ namespace TODOLIST.Migrations
             modelBuilder.Entity("TODOLIST.Data.Entities.Admin", b =>
                 {
                     b.Navigation("Projects");
-                });
-
-            modelBuilder.Entity("TODOLIST.Data.Entities.Programer", b =>
-                {
-                    b.Navigation("ToDos");
                 });
 #pragma warning restore 612, 618
         }

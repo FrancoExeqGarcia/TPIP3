@@ -17,7 +17,10 @@ namespace TODOLIST.Services.Implementations
 
         public List<Project> GetAllProjects()
         {
-            return _context.Project.ToList();
+            return _context.Project
+                .Include(e=> e.ToDos)
+                .ToList();
+                
         }
 
         public Project GetProjectById(int projectId)
