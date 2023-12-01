@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using TODOLIST.Data.Entities;
+using TODOLIST.Data.Models;
 using TODOLIST.Services.Implementations;
 using TODOLIST.Services.Interfaces;
 
@@ -36,25 +37,64 @@ namespace TODOLIST.Controllers
 
             return Ok(todo);
         }
-
-        [HttpPut("{id}")]
-        public ActionResult<ToDo> Put(int id, ToDo updatedToDo)
+        [HttpPost]
+        public IActionResult CreateProject([FromBody] ToDoUpdateDto toDoCreateDto)
         {
-            var existingToDo = _todoService.UpdateTodo(id, updatedToDo);
-
-            if (existingToDo == null)
+            var toDo = new ToDo
             {
-                return NotFound();
-            }
+                Name = toDoCreateDto.Name,
+                StartDate = toDoCreateDto.StartDate,
+                EndDate = toDoCreateDto.EndDate,
+            };
 
-            return Ok(existingToDo);
+            try
+            {
+                var createdToDo = _todoService.CreateTodo(toDo);
+                return CreatedAtAction(nameof(Get), new { id = createdToDo.ProjectId }, createdToDo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public IActionResult UpdateToDo(int todoId,[FromBody] ToDoUpdateDto toDoUpdateDto)
+        {
+            var updatedToDo = new ToDo
+            {
+                Name = toDoUpdateDto.Name,
+                StartDate = toDoUpdateDto.StartDate,
+                EndDate = toDoUpdateDto.EndDate,
+            };
+
+            try
+            {
+                var result = _todoService.UpdateTodo(todoId, updatedToDo);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult DeleteToDo(int todoId)
         {
-            _todoService.DeleteTodo(id);
-            return NoContent();
+            try
+            {
+                _todoService.DeleteTodo(todoId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

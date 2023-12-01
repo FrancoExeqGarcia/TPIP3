@@ -21,9 +21,9 @@ namespace TODOLIST.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Project>> Get(string userName)
+        public ActionResult<IEnumerable<Project>> Get()
         {
-            var users = _userService.GetAllUsers(userName);
+            var users = _userService.GetAllUsers();
             return Ok(users);
         }
         [HttpGet("{id}")]
@@ -56,6 +56,8 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPost("admin/")]
+        [Authorize(Roles = "SuperAdmin")]
+
         public IActionResult CreateAdmin([FromBody] AdminPostDto adminPostDto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
@@ -75,8 +77,8 @@ namespace TODOLIST.Controllers
             return Forbid();
         }
 
-        [HttpPut]
-        public IActionResult UpdateProgramer([FromBody] ProgramerUpdateDto programerUpdateDto)
+        /*[HttpPut]
+        public IActionResult UpdateProgramer(int userId, [FromBody] ProgramerUpdateDto programerUpdateDto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
 
@@ -93,7 +95,29 @@ namespace TODOLIST.Controllers
                 return Ok();
             }
             return Forbid();
+        }*/
+
+        [HttpPut]
+        public IActionResult UpdateProgramer(int userId, [FromBody] ProgramerUpdateDto programerUpdateDto)
+        {
+            var updatedProgramer = new Programer
+            {
+                UserId = userId,
+                UserName = programerUpdateDto.UserName,
+                Password = programerUpdateDto.Password,
+            };
+
+            try
+            {
+                _userService.UpdateUser(updatedProgramer);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)

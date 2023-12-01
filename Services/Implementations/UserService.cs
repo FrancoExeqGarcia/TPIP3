@@ -59,11 +59,13 @@ namespace TODOLIST.Services.Implementations
             return user.UserId;
         }
 
-        public ErrorOr<Updated> UpdateUser(User user)
+        public User UpdateUser(User user)
         {
-            _context.Update(user);
-            _context.SaveChanges();
-            return Result.Updated;
+            var userEncontrado = _context.Users.FirstOrDefault(u => u.UserId == user.UserId);
+            userEncontrado.UserName = user.UserName;
+            _context.Users.Update(userEncontrado);
+            return userEncontrado;
+
         }
 
         public ErrorOr<Deleted> DeleteUser(int userId)
@@ -82,9 +84,9 @@ namespace TODOLIST.Services.Implementations
             return _context.Users.Where(u => u.UserType == role).ToList();
         }
 
-        public List<User> GetAllUsers(string users)
+        public List<User> GetAllUsers()
         {
-            return _context.Users.Where(u => u.UserName == users).ToList();
+            return _context.Users.ToList();
         }
 
         User IUserService.GetUserById(int userId)

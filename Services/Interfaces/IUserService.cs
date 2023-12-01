@@ -12,11 +12,11 @@ namespace TODOLIST.Services.Interfaces
         public bool CheckIfUserExists(string userEmail);
         public BaseResponse ValidateUser(string email, string password);
         public ErrorOr<int> CreateUser(User user);
-        public ErrorOr<Updated> UpdateUser(User user);
         public ErrorOr<Deleted> DeleteUser(int userId);
-        List<User> GetAllUsers(string users);
+        List<User> GetAllUsers();
         public User GetUserById(int userId);
         public User GetUserByEmail(string email);
+        User UpdateUser(User user);
 
     }
 }
