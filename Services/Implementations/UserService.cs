@@ -59,7 +59,7 @@ namespace TODOLIST.Services.Implementations
             return user;
         }
 
-        public User UpdateUser(int userId, User updateUser)
+        public User? UpdateUser(int userId, User updateUser)
         {
             var existingUser = _context.Users.Find(userId);
             if (existingUser == null)
@@ -103,7 +103,7 @@ namespace TODOLIST.Services.Implementations
             return _context.Users.ToList();
         }
 
-        User IUserService.GetUserById(int userId)
+        User? IUserService.GetUserById(int userId)
         {
             return _context.Users.FirstOrDefault(u => u.UserId == userId);
         }

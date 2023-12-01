@@ -14,9 +14,9 @@ namespace TODOLIST.Services.Interfaces
         User CreateUser(User user);
         bool DeleteUser(int userId);
         List<User> GetAllUsers();
-        User GetUserById(int userId);
-        User GetUserByEmail(string email);
-        User UpdateUser(int userId, User updateUser);
+        User? GetUserById(int userId);
+        User? GetUserByEmail(string email);
+        User? UpdateUser(int userId, User updateUser);
 
     }
 }
