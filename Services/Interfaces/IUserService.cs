@@ -16,7 +16,7 @@ namespace TODOLIST.Services.Interfaces
         List<User> GetAllUsers();
         public User GetUserById(int userId);
         public User GetUserByEmail(string email);
-        User UpdateUser(User user);
+        User UpdateUser(int userId, User updateUser);
 
     }
 }

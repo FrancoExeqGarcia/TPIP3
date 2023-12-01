@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ErrorOr;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -36,25 +37,31 @@ namespace TODOLIST.Controllers
         }
 
 
-        [AllowAnonymous]
+        
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult CreateProgramer([FromBody] ProgramerPostDto programerPostDto) //sería la registración de un nuevo cliente
         {
-            if (!_userService.CheckIfUserExists(programerPostDto.Email))
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (role == "SuperAdmin")
             {
-                Programer programer = new Programer()
+                if (!_userService.CheckIfUserExists(programerPostDto.Email))
                 {
-                    Email = programerPostDto.Email,
-                    Password = programerPostDto.Password,
-                    UserName = programerPostDto.UserName,
-                };
-                int id = _userService.CreateUser(programer).Value;
-                return Ok(id);
+                    Programer programer = new Programer()
+                    {
+                        Email = programerPostDto.Email,
+                        Password = programerPostDto.Password,
+                        UserName = programerPostDto.UserName,
+                    };
+                    int id = _userService.CreateUser(programer).Value;
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Client already exists");
+                }
             }
-            else
-            {
-                return BadRequest("Client already exists");
-            }
+            return Forbid();
         }
 
         [HttpPost("admin/")]
@@ -74,66 +81,60 @@ namespace TODOLIST.Controllers
                     UserType = nameof(UserRoleEnum.Admin)
                 };
                 int id = _userService.CreateUser(admin).Value;
-                return Ok(id);
+                return Ok(result);
             }
             return Forbid();
         }
 
-        /*[HttpPut]
+
+        [HttpPut]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult UpdateProgramer(int userId, [FromBody] ProgramerUpdateDto programerUpdateDto)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
-
-            if (role == "Programer")
+            if (role == "SuperAdmin")
             {
-                Programer programerToUpdate = new Programer()
+                    var updatedProgramer = new Programer
                 {
-                    UserId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value),
-                    Email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value,
+                    Email = programerUpdateDto.Email,
                     UserName = programerUpdateDto.UserName,
                     Password = programerUpdateDto.Password,
                 };
-                _userService.UpdateUser(programerToUpdate);
-                return Ok();
+                try
+                {
+                    var result = _userService.UpdateUser(userId, updatedProgramer);
+                    if (result == null)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             return Forbid();
-        }*/
-
-        [HttpPut]
-        public IActionResult UpdateProgramer(int userId, [FromBody] ProgramerUpdateDto programerUpdateDto)
-        {
-            var updatedProgramer = new Programer
-            {
-                UserId = userId,
-                UserName = programerUpdateDto.UserName,
-                Password = programerUpdateDto.Password,
-            };
-
-            try
-            {
-                _userService.UpdateUser(updatedProgramer);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
 
         [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
-            try
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (role == "SuperAdmin")
             {
-                _userService.DeleteUser(id);
-                return NoContent(); // Devuelve 204 No Content si la eliminación fue exitosa
+                    try
+                    {
+                    _userService.DeleteUser(id);
+                    return NoContent(); // Devuelve 204 No Content si la eliminación fue exitosa
+                    }
+                catch (Exception ex)
+                    {
+                    return StatusCode(500, "Internal Server Error"); // Devuelve 500 Internal Server Error en caso de una excepción no manejada
+                 }
             }
-            catch (Exception ex)
-            {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal Server Error"); // Devuelve 500 Internal Server Error en caso de una excepción no manejada
-            }
+            return Forbid();
         }
 
 

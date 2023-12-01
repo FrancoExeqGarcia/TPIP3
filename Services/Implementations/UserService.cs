@@ -59,12 +59,19 @@ namespace TODOLIST.Services.Implementations
             return user.UserId;
         }
 
-        public User UpdateUser(User user)
+        public User UpdateUser(int userId, User updateUser)
         {
-            var userEncontrado = _context.Users.FirstOrDefault(u => u.UserId == user.UserId);
-            userEncontrado.UserName = user.UserName;
-            _context.Users.Update(userEncontrado);
-            return userEncontrado;
+            var existingUser = _context.Users.Find(userId);
+            if (existingUser == null)
+            {
+                return null;
+            }
+            existingUser.UserName = updateUser.UserName;
+            existingUser.Password = updateUser.Password;
+            existingUser.Email = updateUser.Email;
+
+            _context.SaveChanges();
+            return existingUser;
 
         }
 
