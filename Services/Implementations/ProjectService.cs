@@ -48,13 +48,19 @@ namespace TODOLIST.Services.Implementations
             return existingProject;
         }
 
-        public void DeleteProject(int projectId)
+        public bool DeleteProject(int projectId)
         {
-            var project = _context.Project.Find(projectId);
-            if (project != null)
+            Project projectToBeDeleted = _context.Project.SingleOrDefault(u => u.ProjectId == projectId); 
+            if (projectToBeDeleted.State != false)
             {
-                _context.Project.Remove(project);
+                projectToBeDeleted.State = false;
+                _context.Update(projectToBeDeleted);
                 _context.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

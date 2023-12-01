@@ -11,8 +11,8 @@ using TODOLIST.DBContext;
 namespace TODOLIST.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20231201134212_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231201144050_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,9 @@ namespace TODOLIST.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("State")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ProjectId");
 
                     b.ToTable("Project");
@@ -65,7 +68,8 @@ namespace TODOLIST.Migrations
                             Description = "Project from USA",
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Project1",
-                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            State = true
                         },
                         new
                         {
@@ -73,7 +77,8 @@ namespace TODOLIST.Migrations
                             Description = "Project from Arg",
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Project2",
-                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            State = true
                         },
                         new
                         {
@@ -81,7 +86,8 @@ namespace TODOLIST.Migrations
                             Description = "Project from EU",
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Project3",
-                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            State = true
                         });
                 });
 

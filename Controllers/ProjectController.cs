@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using TODOLIST.Data.Entities;
 using TODOLIST.Data.Models;
+using TODOLIST.Services.Implementations;
 using TODOLIST.Services.Interfaces;
 
 namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProjectController : Controller
+    public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
 
@@ -35,66 +38,86 @@ namespace TODOLIST.Controllers
             return Ok(project);
         }
         [HttpPost]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public IActionResult CreateProject([FromBody] ProjectCreateDto projectCreateDto)
         {
-            var project = new Project
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (role != "Programer")
             {
-                Name = projectCreateDto.Name,
-                StartDate = projectCreateDto.StartDate,
-                EndDate = projectCreateDto.EndDate,
-                Description = projectCreateDto.Description
-            };
+                var project = new Project
+                {
+                    Name = projectCreateDto.Name,
+                    StartDate = projectCreateDto.StartDate,
+                    EndDate = projectCreateDto.EndDate,
+                    Description = projectCreateDto.Description
+                };
 
-            try
-            {
-                var createdProject = _projectService.CreateProject(project);
-                return CreatedAtAction(nameof(GetProject), new { id = createdProject.ProjectId }, createdProject);
+                try
+                {
+                    var createdProject = _projectService.CreateProject(project);
+                    return CreatedAtAction(nameof(GetProject), new { id = createdProject.ProjectId }, createdProject);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Forbid();
         }
 
         [HttpPut]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public IActionResult UpdateProject(int projectId, [FromBody] ProjectUpdateDto projectUpdateDto)
         {
-            var updatedProject = new Project
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (role != "Programer")
             {
-                Name = projectUpdateDto.Name,
-                StartDate = projectUpdateDto.StartDate,
-                EndDate = projectUpdateDto.EndDate,
-                Description = projectUpdateDto.Description
-            };
-
-            try
-            {
-                var result = _projectService.UpdateProject(projectId, updatedProject);
-                if (result == null)
+                var updatedProject = new Project
                 {
-                    return NotFound();
+                    Name = projectUpdateDto.Name,
+                    StartDate = projectUpdateDto.StartDate,
+                    EndDate = projectUpdateDto.EndDate,
+                    Description = projectUpdateDto.Description
+                };
+
+                try
+                {
+                    var result = _projectService.UpdateProject(projectId, updatedProject);
+                    if (result == null)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(result);
                 }
-                return Ok(result);
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Forbid();
         }
 
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin, Admin")]
         public IActionResult DeleteProject(int id)
         {
-            try
+            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (role != "Programer")
             {
-                _projectService.DeleteProject(id);
-                return NoContent();
+                try
+                {
+                    if (_projectService.DeleteProject(id))
+                    {
+                        return Ok($"Project {id} eliminado");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Forbid();
         }
     }
 }

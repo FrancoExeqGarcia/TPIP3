@@ -9,6 +9,6 @@ namespace TODOLIST.Services.Interfaces
         Project GetProjectById(int projectId);
         Project CreateProject(Project project);
         Project UpdateProject(int projectId, Project project);
-        void DeleteProject(int projectId);
+        bool DeleteProject(int projectId);
     }
 }

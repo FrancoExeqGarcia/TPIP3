@@ -9,13 +9,13 @@ namespace TODOLIST.Services.Interfaces
 {
     public interface IUserService
     {
-        public bool CheckIfUserExists(string userEmail);
-        public BaseResponse ValidateUser(string email, string password);
-        public User CreateUser(User user);
-        public bool DeleteUser(int userId);
+        bool CheckIfUserExists(string userEmail);
+        BaseResponse ValidateUser(string email, string password);
+        User CreateUser(User user);
+        bool DeleteUser(int userId);
         List<User> GetAllUsers();
-        public User GetUserById(int userId);
-        public User GetUserByEmail(string email);
+        User GetUserById(int userId);
+        User GetUserByEmail(string email);
         User UpdateUser(int userId, User updateUser);
 
     }
