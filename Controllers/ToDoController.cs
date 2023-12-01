@@ -39,6 +39,7 @@ namespace TODOLIST.Controllers
 
             return Ok(todo);
         }
+
         [HttpPost]
         public IActionResult CreateProject([FromBody] ToDoCreateDto toDoCreateDto)
         {
@@ -59,7 +60,6 @@ namespace TODOLIST.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
         [HttpPut]
         public IActionResult UpdateToDo(int todoId,[FromBody] ToDoUpdateDto toDoUpdateDto)
         {

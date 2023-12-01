@@ -12,8 +12,8 @@ using TODOLIST.Services.Interfaces;
 
 namespace TODOLIST.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize]
     public class UserController : ControllerBase
     {
@@ -119,6 +119,7 @@ namespace TODOLIST.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "SuperAdmin")]
         public ActionResult DeleteUser(int id)
         {
             string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
