@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using TODOLIST.Data.Entities;
 using TODOLIST.Data.Models;
@@ -9,6 +10,7 @@ namespace TODOLIST.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class TodoController : ControllerBase
     {
         private readonly IToDoService _todoService;
