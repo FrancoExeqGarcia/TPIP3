@@ -11,5 +11,6 @@ namespace TODOLIST.Services.Interfaces
         ToDo CreateTodo(ToDo toDo);
         ToDo UpdateTodo(int todoId, ToDo updatedTodo);
         bool DeleteTodo(int todoId);
+        ToDo UpdateToDoStatus(int todoId, bool isCompleted);
     }
 }

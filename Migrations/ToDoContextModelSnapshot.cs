@@ -96,6 +96,9 @@ namespace TODOLIST.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -120,6 +123,7 @@ namespace TODOLIST.Migrations
                         {
                             ToDoId = 1,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCompleted = false,
                             Name = "Controlers",
                             ProjectID = 1,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -129,6 +133,7 @@ namespace TODOLIST.Migrations
                         {
                             ToDoId = 2,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCompleted = false,
                             Name = "Entities",
                             ProjectID = 2,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -138,6 +143,7 @@ namespace TODOLIST.Migrations
                         {
                             ToDoId = 3,
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsCompleted = false,
                             Name = "Services",
                             ProjectID = 3,
                             StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),

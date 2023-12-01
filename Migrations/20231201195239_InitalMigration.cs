@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TODOLIST.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitalMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,8 @@ namespace TODOLIST.Migrations
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ProjectID = table.Column<int>(type: "INTEGER", nullable: false),
-                    State = table.Column<bool>(type: "INTEGER", nullable: false)
+                    State = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,18 +112,18 @@ namespace TODOLIST.Migrations
 
             migrationBuilder.InsertData(
                 table: "ToDo",
-                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectID", "StartDate", "State" },
-                values: new object[] { 1, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Controlers", 1, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
+                columns: new[] { "ToDoId", "EndDate", "IsCompleted", "Name", "ProjectID", "StartDate", "State" },
+                values: new object[] { 1, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Controlers", 1, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
 
             migrationBuilder.InsertData(
                 table: "ToDo",
-                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectID", "StartDate", "State" },
-                values: new object[] { 2, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Entities", 2, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
+                columns: new[] { "ToDoId", "EndDate", "IsCompleted", "Name", "ProjectID", "StartDate", "State" },
+                values: new object[] { 2, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Entities", 2, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
 
             migrationBuilder.InsertData(
                 table: "ToDo",
-                columns: new[] { "ToDoId", "EndDate", "Name", "ProjectID", "StartDate", "State" },
-                values: new object[] { 3, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Services", 3, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
+                columns: new[] { "ToDoId", "EndDate", "IsCompleted", "Name", "ProjectID", "StartDate", "State" },
+                values: new object[] { 3, new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Services", 3, new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), true });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Project_AdminUserId",

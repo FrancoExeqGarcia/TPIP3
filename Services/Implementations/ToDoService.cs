@@ -46,6 +46,7 @@ namespace TODOLIST.Services.Implementations
             existingTodo.Name = updatedTodo.Name;
             existingTodo.StartDate = updatedTodo.StartDate;
             existingTodo.EndDate = updatedTodo.EndDate;
+            existingTodo.IsCompleted = updatedTodo.IsCompleted;
 
             _todos.SaveChanges();
             return existingTodo;
@@ -73,6 +74,19 @@ namespace TODOLIST.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(toDoToBeDeleted), "El ToDo a ser eliminado no fue encontrado.");
             }
+        }
+        public ToDo UpdateToDoStatus(int todoId, bool isCompleted)
+        {
+            var existingTodo = _todos.ToDo.Find(todoId);
+            if (existingTodo == null)
+            {
+                return null;
+            }
+
+            existingTodo.IsCompleted = isCompleted;
+
+            _todos.SaveChanges();
+            return existingTodo;
         }
 
     }

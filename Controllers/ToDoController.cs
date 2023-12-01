@@ -69,6 +69,7 @@ namespace TODOLIST.Controllers
                 Name = toDoUpdateDto.Name,
                 StartDate = toDoUpdateDto.StartDate,
                 EndDate = toDoUpdateDto.EndDate,
+                IsCompleted = toDoUpdateDto.IsCompleted,
             };
 
             try
@@ -101,6 +102,23 @@ namespace TODOLIST.Controllers
                 return BadRequest(ex.Message);// en caso de una excepcion no manejada devuelve 500 internal server error
             }
             return Forbid();
+        }
+        [HttpPatch("{id}/status")] // Utilizando HttpPatch para actualizar parcialmente el ToDo
+        public IActionResult UpdateToDoStatus(int id, [FromBody] bool isCompleted)
+        {
+            try
+            {
+                var updatedTodo = _todoService.UpdateToDoStatus(id, isCompleted);
+                if (updatedTodo == null)
+                {
+                    return NotFound();
+                }
+                return Ok(updatedTodo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ namespace TODOLIST.Data.Entities
         public int ProjectID { get; set; }
        // public Project Project { get; set; }
         
-        public bool State { get; set; } = true;   
+        public bool State { get; set; } = true;
+        public bool IsCompleted { get; set; } = false;
     }
 }
