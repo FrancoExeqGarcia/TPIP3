@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ErrorOr;
+using System.Collections.Generic;
 using TODOLIST.Data.Entities;
 
 namespace TODOLIST.Services.Interfaces
@@ -9,6 +10,6 @@ namespace TODOLIST.Services.Interfaces
         ToDo GetTodoById(int todoId);
         ToDo CreateTodo(ToDo toDo);
         ToDo UpdateTodo(int todoId, ToDo updatedTodo);
-        void DeleteTodo(int todoId);
+        public ErrorOr<Deleted> DeleteTodo(int todoId);
     }
 }

@@ -14,6 +14,7 @@ namespace TODOLIST.Data.Entities
         [ForeignKey("ProjectId")]
         public int ProjectId { get; set; }
         public Project Project { get; set; }
+        public bool State { get; set; } = true;
 
     }
 }

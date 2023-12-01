@@ -11,8 +11,8 @@ using TODOLIST.DBContext;
 namespace TODOLIST.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20231201123458_Initial")]
-    partial class Initial
+    [Migration("20231201134212_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,6 +107,9 @@ namespace TODOLIST.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("State")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ToDoId");
 
                     b.HasIndex("ProgramerUserId");
@@ -122,7 +125,8 @@ namespace TODOLIST.Migrations
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Controlers",
                             ProjectId = 1,
-                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            State = true
                         },
                         new
                         {
@@ -130,7 +134,8 @@ namespace TODOLIST.Migrations
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Entities",
                             ProjectId = 2,
-                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            State = true
                         },
                         new
                         {
@@ -138,7 +143,8 @@ namespace TODOLIST.Migrations
                             EndDate = new DateTime(2023, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Services",
                             ProjectId = 3,
-                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StartDate = new DateTime(2023, 11, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            State = true
                         });
                 });
 

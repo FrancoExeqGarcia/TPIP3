@@ -5,6 +5,7 @@ using TODOLIST.Data.Entities;
 using TODOLIST.Services.Interfaces;
 using TODOLIST.DBContext;
 using Microsoft.EntityFrameworkCore;
+using ErrorOr;
 
 namespace TODOLIST.Services.Implementations
 {
@@ -47,13 +48,13 @@ namespace TODOLIST.Services.Implementations
             return existingTodo;
         }
 
-        public void DeleteTodo(int todoId)
+        public ErrorOr<Deleted> DeleteTodo(int todoId)
         {
-            var todo = _todos.ToDo.FirstOrDefault(t => t.ToDoId == todoId);
-            if (todo != null)
-            {
-                _todos.Remove(todo);
-            }
+            ToDo toDoToBeDeleted = _todos.ToDo.SingleOrDefault(u => u.ToDoId == todoId); //el usuario a borrar va a existir en la BBDD porque el userId viene del token del usuario que inició sesión. Si inicia sesión, su usuario ya existe.
+            toDoToBeDeleted.State = false; //borrado lógico. El usuario seguirá en la BBDD pero con un state 0 (false)
+            _todos.Update(toDoToBeDeleted);
+            _todos.SaveChanges();
+            return Result.Deleted;
         }
     }
 }
