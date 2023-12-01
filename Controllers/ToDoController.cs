@@ -26,7 +26,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ToDo> Get(int id)
+        public ActionResult<ToDo> GetToDo(int id)
         {
             var todo = _todoService.GetTodoById(id);
 
@@ -38,7 +38,7 @@ namespace TODOLIST.Controllers
             return Ok(todo);
         }
         [HttpPost]
-        public IActionResult CreateProject([FromBody] ToDoUpdateDto toDoCreateDto)
+        public IActionResult CreateProject([FromBody] ToDoCreateDto toDoCreateDto)
         {
             var toDo = new ToDo
             {
@@ -50,7 +50,7 @@ namespace TODOLIST.Controllers
             try
             {
                 var createdToDo = _todoService.CreateTodo(toDo);
-                return CreatedAtAction(nameof(Get), new { id = createdToDo.ProjectId }, createdToDo);
+                return CreatedAtAction(nameof(GetToDo), new { id = createdToDo.ToDoId }, createdToDo);
             }
             catch (Exception ex)
             {
