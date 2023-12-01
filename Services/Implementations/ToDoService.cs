@@ -31,20 +31,23 @@ namespace TODOLIST.Services.Implementations
 
         public ToDo CreateTodo(ToDo todo)
         {
-            var newTodoId = _todos.ToDo.Add(todo);
+            _todos.ToDo.Add(todo);
+            _todos.SaveChanges();
             return todo;
         }
 
         public ToDo UpdateTodo(int todoId, ToDo updatedTodo)
         {
-            var existingTodo = _todos.ToDo.FirstOrDefault(t => t.ToDoId == todoId);
-            if (existingTodo != null)
+            var existingTodo = _todos.ToDo.Find(todoId);
+            if (existingTodo == null)
             {
-                existingTodo.Name = updatedTodo.Name;
-                existingTodo.StartDate = updatedTodo.StartDate;
-                existingTodo.EndDate = updatedTodo.EndDate;
+                return null;
             }
+            existingTodo.Name = updatedTodo.Name;
+            existingTodo.StartDate = updatedTodo.StartDate;
+            existingTodo.EndDate = updatedTodo.EndDate;
 
+            _todos.SaveChanges();
             return existingTodo;
         }
 
