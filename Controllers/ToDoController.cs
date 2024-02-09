@@ -9,7 +9,7 @@ using TODOLIST.Services.Interfaces;
 namespace TODOLIST.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Authorize]
     public class TodoController : ControllerBase
     {
@@ -41,7 +41,7 @@ namespace TODOLIST.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateProject([FromBody] ToDoCreateDto toDoCreateDto)
+        public IActionResult CreateTodo([FromBody] ToDoCreateDto toDoCreateDto)
         {
             var toDo = new ToDo
             {
@@ -56,9 +56,9 @@ namespace TODOLIST.Controllers
                 var createdToDo = _todoService.CreateTodo(toDo);
                 return CreatedAtAction(nameof(GetToDo), new { id = createdToDo.ToDoId }, createdToDo);
             }
-            catch (Exception ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                return Conflict("Error al crear el proyecto. Conflicto detectado");
             }
         }
         [HttpPut]
@@ -99,11 +99,11 @@ namespace TODOLIST.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);// en caso de una excepcion no manejada devuelve 500 internal server error
+                return StatusCode(500, ex.Message);
             }
             return Forbid();
         }
-        [HttpPatch("{id}/status")] // Utilizando HttpPatch para actualizar parcialmente el ToDo
+        [HttpPatch("{id}/status")]
         public IActionResult UpdateToDoStatus(int id, [FromBody] bool isCompleted)
         {
             try
@@ -117,7 +117,7 @@ namespace TODOLIST.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

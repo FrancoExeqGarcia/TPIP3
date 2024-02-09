@@ -6,9 +6,9 @@ namespace TODOLIST.DBContext
 {
     public class ToDoContext : DbContext 
     { 
-        public DbSet<User> Users { get; set; }
-        public DbSet<ToDo> ToDo { get; set; }
-        public DbSet<Project> Project { get; set; }
+        public DbSet<User>? Users { get; set; }
+        public DbSet<ToDo>? ToDo { get; set; }
+        public DbSet<Project>? Project { get; set; }
         public ToDoContext(DbContextOptions<ToDoContext> dbContextOptions) : base(dbContextOptions)
         {
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.Security.Claims;
 using TODOLIST.Data.Entities;
@@ -26,6 +27,11 @@ namespace TODOLIST.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Project>> GetAllUsers()
         {
+            StringValues header;
+            if (Request.Headers.TryGetValue("Authorization",out header))
+            {
+
+            }
             var users = _userService.GetAllUsers();
             return Ok(users);
         }
@@ -46,7 +52,8 @@ namespace TODOLIST.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult CreateProgramer([FromBody] ProgramerPostDto programerPostDto) //sería la registración de un nuevo cliente
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            string role = roleClaim != null ? roleClaim.Value : "DefaultRole";
             if (role == "SuperAdmin")
             {
                 if (!_userService.CheckIfUserExists(programerPostDto.Email))
@@ -62,7 +69,7 @@ namespace TODOLIST.Controllers
                 }
                 else
                 {
-                    return BadRequest("Client already exists");
+                    return Conflict("Client already exists");
                 }
             }
             return Forbid();
@@ -73,7 +80,8 @@ namespace TODOLIST.Controllers
 
         public IActionResult CreateAdmin([FromBody] AdminPostDto adminPostDto)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            string role = roleClaim != null ? roleClaim.Value : "DefaultRole";
 
             if (role == "SuperAdmin")
             {
@@ -95,7 +103,8 @@ namespace TODOLIST.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult UpdateProgramer(int userId, [FromBody] ProgramerUpdateDto programerUpdateDto)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            string role = roleClaim != null ? roleClaim.Value : "DefaultRole";
             if (role == "SuperAdmin")
             {
                     var updatedProgramer = new Programer
@@ -115,7 +124,7 @@ namespace TODOLIST.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
             return Forbid();
@@ -126,7 +135,8 @@ namespace TODOLIST.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public ActionResult DeleteUser(int id)
         {
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            string role = roleClaim != null ? roleClaim.Value : "DefaultRole";
             if (role == "SuperAdmin")
             {
                 try
@@ -138,7 +148,7 @@ namespace TODOLIST.Controllers
                 }
                 catch (Exception ex)
                 {
-                return BadRequest(ex.Message); 
+                return StatusCode(500, ex.Message); 
                 }
             }
             return Forbid();

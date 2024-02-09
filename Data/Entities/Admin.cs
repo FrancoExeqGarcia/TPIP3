@@ -5,6 +5,6 @@ namespace TODOLIST.Data.Entities
 {
     public class Admin : User
     {
-        public List<Project> Projects { get; set; }
+        public List<Project>? Projects { get; set; }
     }
 }
