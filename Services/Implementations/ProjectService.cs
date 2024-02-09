@@ -22,12 +22,13 @@ namespace TODOLIST.Services.Implementations
                 .ToList();
                 
         }
-
-        public Project GetProjectById(int projectId)
+        public Project GetProjectById(int id)
         {
-            return _context.Project.Find(projectId);
+            return _context.Project
+                .Include(p => p.ToDos)
+                .FirstOrDefault(p => p.ProjectId == id);
         }
-        
+
         public Project CreateProject(Project project)
         {
             _context.Project.Add(project);
