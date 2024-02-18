@@ -28,6 +28,10 @@ namespace TODOLIST.Services.Implementations
             var todoEncontrado = _todos.ToDo.FirstOrDefault(t => t.ToDoId == todoId);
             return todoEncontrado;
         }
+        public List<ToDo> GetByStatus(bool status)
+        {
+            return _todos.ToDo.Where(t => t.IsCompleted == status).ToList();
+        }
 
         public ToDo CreateTodo(ToDo todo)
         {

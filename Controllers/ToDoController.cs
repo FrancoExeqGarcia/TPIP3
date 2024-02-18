@@ -40,6 +40,18 @@ namespace TODOLIST.Controllers
             return Ok(todo);
         }
 
+        [HttpGet("status")]
+        public ActionResult<IEnumerable<ToDo>> GetByStatus(bool status)
+        {
+            var todos = _todoService.GetByStatus(status);
+            if (todos == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(todos);
+        }
+
         [HttpPost]
         public IActionResult CreateTodo([FromBody] ToDoCreateDto toDoCreateDto)
         {

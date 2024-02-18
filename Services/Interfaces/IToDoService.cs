@@ -8,6 +8,7 @@ namespace TODOLIST.Services.Interfaces
     {
         List<ToDo> GetAllToDos();
         ToDo GetTodoById(int todoId);
+        List<ToDo> GetByStatus(bool status);
         ToDo CreateTodo(ToDo toDo);
         ToDo UpdateTodo(int todoId, ToDo updatedTodo);
         bool DeleteTodo(int todoId);
