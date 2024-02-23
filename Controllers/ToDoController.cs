@@ -20,14 +20,14 @@ namespace TODOLIST.Controllers
             _todoService = todoService;
         }
 
-        [HttpGet]
+        [HttpGet("/getalltodos")]
         public ActionResult<IEnumerable<ToDo>> Get()
         {
             var todos = _todoService.GetAllToDos();
             return Ok(todos);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/gettodobyid/{id}")]
         public ActionResult<ToDo> GetToDo(int id)
         {
             var todo = _todoService.GetTodoById(id);
@@ -40,7 +40,7 @@ namespace TODOLIST.Controllers
             return Ok(todo);
         }
 
-        [HttpGet("getbystatus/{status}")]
+        [HttpGet("getbystatus")]
         public ActionResult<IEnumerable<ToDo>> GetByStatus(bool status)
         {
             var todos = _todoService.GetByStatus(status);
