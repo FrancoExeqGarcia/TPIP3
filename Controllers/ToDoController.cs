@@ -40,7 +40,7 @@ namespace TODOLIST.Controllers
             return Ok(todo);
         }
 
-        [HttpGet("status")]
+        [HttpGet("getbystatus/{status}")]
         public ActionResult<IEnumerable<ToDo>> GetByStatus(bool status)
         {
             var todos = _todoService.GetByStatus(status);
